@@ -15,8 +15,7 @@ function App() {
             </div>
 
             <div style={{width: "75%"}}>
-                <CameraWindow
-                    currCamRef = {currentCameraRef}/>
+                <CameraWindow/>
             </div>
 
         </div>

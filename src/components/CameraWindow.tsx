@@ -2,22 +2,10 @@ import React, { useEffect, useRef, useState } from "react"
 import Webcam from "react-webcam"
 
 
-interface Props {
-    currCamRef: React.MutableRefObject<number>
-}
+const CameraWindow = () => {
 
-const CameraWindow = ({currCamRef}: Props) => {
-
-
-    const [currentCamera, setCurrentCamera] = useState(0)
     const numberOfDevices = useRef<number>(1)
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
-
-    const toggleCamera = () => {
-        const nextCamera = (currentCamera + 1) % numberOfDevices.current
-        setCurrentCamera(nextCamera)
-        currCamRef.current = nextCamera
-    }
 
 
     useEffect(() => {
@@ -37,13 +25,34 @@ const CameraWindow = ({currCamRef}: Props) => {
         <>
         <Webcam
             videoConstraints={{
-                width: 960,
-                height: 540,
-                aspectRatio: 16/9,
-                deviceId: cameraIDs[currentCamera]
+                width: 600,
+                height: 600,
+                deviceId: cameraIDs[0]
+            }}
+            style={{
+                width: 200
             }}
         /> 
-        <button onClick={toggleCamera}>toggle camera</button>
+        <Webcam
+            videoConstraints={{
+                width: 600,
+                height: 600,
+                deviceId: cameraIDs[1]
+            }}
+            style={{
+                width: 200
+            }}
+        /> 
+        <Webcam
+            videoConstraints={{
+                width: 600,
+                height: 600,
+                deviceId: cameraIDs[2]
+            }}
+            style={{
+                width: 200
+            }}
+        /> 
         </>
     )
 }
