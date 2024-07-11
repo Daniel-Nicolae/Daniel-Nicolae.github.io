@@ -1,5 +1,5 @@
 import './App.css';
-
+import CameraWindow from "./components/CameraWindow"
 
 function App() {
 
@@ -8,15 +8,19 @@ function App() {
 
 
   return (
-    <div style={{display: "flex", flexDirection: "row"}}>
+    <>
+      <div style={{height: 10}}/>
+      <div style={{display: "flex", flexDirection: "row"}}>
 
-      <div style={{width: "50%"}}>
+        <div style={{width: "50%"}}>
+        </div>
+
+        <div style={{width: "50%"}}>
+          <CameraWindow/>
+        </div>
+
       </div>
-
-      <div style={{width: "50%"}}>
-      </div>
-
-    </div>
+    </>
   );
 }
 
