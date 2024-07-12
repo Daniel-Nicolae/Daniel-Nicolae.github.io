@@ -8,20 +8,20 @@ interface Props {
 
 const IndividualCamera = ({number, ID}: Props) => {
 
-    const [checked, setChecked] = useState(false)
+    const [active, setActive] = useState(false)
 
     const handleChange = () => {
-        setChecked(!checked)
+        setActive(!active)
     }
 
     return (
         <>
         <div style={{height: 5}}/>
 
-        <div style={{display: "flex", flexDirection: "row", height: 200, alignItems: "center"}}>
+        <div style={{display: "flex", flexDirection: "row", height: 250, alignItems: "center"}}>
             <input
                 type="checkbox"
-                checked={checked}
+                checked={active}
                 onChange={handleChange}
             /> 
 
@@ -30,7 +30,7 @@ const IndividualCamera = ({number, ID}: Props) => {
 
             <div style={{width: 20}}/>
 
-            {checked && 
+            {active && 
             <Webcam
                 videoConstraints={{
                     width: 600,
@@ -38,7 +38,7 @@ const IndividualCamera = ({number, ID}: Props) => {
                     deviceId: ID
                 }}
                 style={{
-                    width: 200
+                    width: 250
                 }}
             />}
         </div>
