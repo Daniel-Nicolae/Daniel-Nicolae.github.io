@@ -17,15 +17,15 @@ const CanalRendering = ({canal}: Props) => {
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
         
-            <div style={{display: "flex", flexDirection: "row", height: 20, alignItems: "center", justifyContent: "center"}}>
+            <div style={{display: "flex", flexDirection: "row", height: 20, alignItems: "baseline", justifyContent: "center"}}>
                 <input
                     type="checkbox"
                     checked={active}
                     onChange={handleChange}
                 /> 
-                <div>{canal}</div>
+                <div style={{fontSize: 20}}>{canal}</div>
             </div>
-            <div style={{height: 5}}/>
+            <div style={{height: 10}}/>
 
             {active && <div style={{width: 400, height: 400, backgroundColor: "red"}}></div>}
         

@@ -25,7 +25,7 @@ const IndividualCamera = ({number, ID}: Props) => {
                 onChange={handleChange}
             /> 
 
-            <div> Camera {number} </div>
+            <div style={{fontSize: 20}}> Camera {number} </div>
             
 
             <div style={{width: 40}}/>
