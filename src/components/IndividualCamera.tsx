@@ -18,7 +18,7 @@ const IndividualCamera = ({number, ID}: Props) => {
         <>
         <div style={{height: 5}}/>
 
-        <div style={{display: "flex", flexDirection: "row", height: 250, alignItems: "center"}}>
+        <div style={{display: "flex", flexDirection: "row", height: active ? 250 : 10, alignItems: "center"}}>
             <input
                 type="checkbox"
                 checked={active}
