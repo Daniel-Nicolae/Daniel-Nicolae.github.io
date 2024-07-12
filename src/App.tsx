@@ -11,7 +11,7 @@ function App() {
         <div style={{height: 10}}/>
         <div style={{display: "flex", flexDirection: "row"}}>
 
-            <div style={{width: "25%"}}>
+            <div style={{width: "1%"}}>
             </div>
 
             <div style={{width: "75%"}}>
