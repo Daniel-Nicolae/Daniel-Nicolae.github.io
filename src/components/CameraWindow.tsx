@@ -16,7 +16,6 @@ const CameraWindow = () => {
             const devices = await navigator.mediaDevices.enumerateDevices()
             const cameraDevices = devices.filter((item) => item.kind === "videoinput")
             const cameraIDs_temp = cameraDevices.map((item, index) => item.deviceId)
-            console.log(cameraIDs_temp)
             setCameraIDs(cameraIDs_temp)
             numberOfDevices.current = cameraIDs_temp.length
         }
