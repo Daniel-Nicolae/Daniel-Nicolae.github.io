@@ -1,25 +1,28 @@
 import CanalRendering from "./CanalRendering"
 
-const GraphicsWindow = () => {
+interface Props {
+    ear: "left" | "right"
+}
 
 
+const GraphicsWindow = ({ear}: Props) => {
 
     return (
         <>
             <div style={{display: "flex", flexDirection: "column"}}>
 
                 <div style={{display: "flex", flexDirection: "row"}}>
-                    <CanalRendering canal="posterior"/>
+                    <CanalRendering canal="posterior" ear={ear}/>
                     <div style={{width: 10}}/>
-                    <CanalRendering canal="anterior"/>
+                    <CanalRendering canal="anterior" ear={ear}/>
                 </div>
 
                 <div style={{height: 10}}/>
 
                 <div style={{display: "flex", flexDirection: "row"}}>
-                    <CanalRendering canal="lateral"/>
+                    <CanalRendering canal="lateral" ear={ear}/>
                     <div style={{width: 10}}/>
-                    <CanalRendering canal="all"/>
+                    <CanalRendering canal="all" ear={ear}/>
                 </div>
 
             </div>

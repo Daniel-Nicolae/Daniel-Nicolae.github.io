@@ -1,0 +1,1 @@
+export const meshPartsLength: {[key: string]: number} = {posterior: 5, anterior: 5, lateral: 3, all: 1}

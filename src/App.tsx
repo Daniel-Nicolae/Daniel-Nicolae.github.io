@@ -6,6 +6,7 @@ import GraphicsWindow from './components/GraphicsWindow';
 function App() {
 
     const currentCameraRef = useRef(0)
+    const [affectedEar, setAffectedEar] = useState<"left"|"right">("left")
 
     return (
         <>
@@ -21,7 +22,7 @@ function App() {
             <div style={{width: "3%"}}/>
 
             <div style={{width: "60%"}}>
-                <GraphicsWindow/>
+                <GraphicsWindow ear={affectedEar}/>
             </div>
 
             <div style={{width: "1%"}}/>
