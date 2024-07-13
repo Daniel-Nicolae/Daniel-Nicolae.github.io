@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
+import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all"
@@ -31,7 +32,8 @@ const CanalRendering = ({canal}: Props) => {
         // Renderer initialisation
         const canvas = document.getElementById("canalCanvas" + canal) as HTMLCanvasElement
         renderer.current = new THREE.WebGLRenderer({canvas: canvas})
-		renderer.current.setSize(300, 300)
+        const size = active ? 300 : 0
+		renderer.current.setSize(size, size)
 
 
         // Scene initialisation
@@ -58,9 +60,28 @@ const CanalRendering = ({canal}: Props) => {
         scene.current.add(plane)
 
 
+
+        // Load Canal Mesh
+        // const loader = new PLYLoader()
+        // for (let i = 0; i < meshPartsLength[canal]; i++) {
+        //     const meshPath = "meshes/" + canal + "_" + i.toString() + ".ply"
+        //     loader.load(meshPath, (geometry) => {
+
+        //         const color = (i === stage) ? ORANGE_COLOUR : BLUE_COLOUR
+        //         const material = new THREE.MeshStandardMaterial({color: color, side: THREE.DoubleSide, flatShading: true})
+        //         const loadedMesh = new THREE.Mesh(geometry, material);
+
+        //         if ((ear === "left" && currentCamera === 0) || (ear === "right" && currentCamera === 1)) 
+        //             loadedMesh.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1))
+        //         scene.current!.add(loadedMesh)
+        //         meshParts.current.push(loadedMesh)
+        //     })
+        // }
+
+
         renderer.current.render(scene.current, camera.current)
 
-    }, [])
+    }, [active])
 
 
     return (
@@ -76,7 +97,7 @@ const CanalRendering = ({canal}: Props) => {
             </div>
             <div style={{height: 10}}/>
 
-            {active && <canvas id={"canalCanvas" + canal}/>}
+            <canvas id={"canalCanvas" + canal}/>
         
         </div>
 
