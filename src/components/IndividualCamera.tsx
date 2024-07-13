@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from "react"
 import Webcam from "react-webcam"
-import vision from "@mediapipe/tasks-vision"
+import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
 
 interface Props {
@@ -28,30 +28,50 @@ const IndividualCamera = ({number, ID}: Props) => {
 
     // model inference 
     let loop: number
+    const landmarks = useRef<vision.NormalizedLandmark[]>()
     const handleVideoLoad = async (videoNode: SyntheticEvent) => {
 
         const video = videoNode.target as HTMLVideoElement
         if (video.readyState !== 4) return
 
         const canvasElement = document.getElementById("modelCanvas" + number) as HTMLCanvasElement
-        const canvasCtx = canvasElement.getContext("2d")
+
+        canvasElement.setAttribute("width", "300")
+        canvasElement.setAttribute("height", "300")
+
+        const canvasCtx = canvasElement.getContext("2d")!
+        const drawingUtils = new DrawingUtils(canvasCtx)
 
         loop = requestAnimationFrame(renderLoop)
 
         let lastVideoTime = -1
         function renderLoop() {
             
+            let startTimeMs = performance.now()
             if (video.currentTime !== lastVideoTime) {
-                const faceLandmarkerResult = model.current.detectForVideo(video, video.currentTime)
+
+                // inference
                 lastVideoTime = video.currentTime
-                if (faceLandmarkerResult.faceLandmarks[0])
-                    console.log(number + ": " + faceLandmarkerResult.faceLandmarks[0][10].x)
+                const faceLandmarkerResult = model.current.detectForVideo(video, startTimeMs)
+                
+
+                // drawing
+                landmarks.current = faceLandmarkerResult.faceLandmarks[0]
+                if (landmarks.current) {
+
+                    canvasCtx.clearRect(0, 0, 300, 300)
+
+                    drawingUtils.drawConnectors(
+                        landmarks.current,
+                        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
+                        { color: "#000000", lineWidth: 1 }
+                    )
+                }
             }
 
             loop = requestAnimationFrame(renderLoop)
         }
     }
-
 
 
     return (
@@ -74,8 +94,8 @@ const IndividualCamera = ({number, ID}: Props) => {
             <Webcam
                 id={"camera" + number} 
                 videoConstraints={{
-                    width: 600,
-                    height: 600,
+                    width: 700,
+                    height: 700,
                     deviceId: ID
                 }}
                 style={{
@@ -83,9 +103,11 @@ const IndividualCamera = ({number, ID}: Props) => {
                 }}
                 onLoadedData={handleVideoLoad}
             />}
+
             {active && 
             <canvas id={"modelCanvas" + number}/>
             }
+
         </div>
 
         <div style={{height: 5}}/>
