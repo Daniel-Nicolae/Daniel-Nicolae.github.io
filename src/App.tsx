@@ -15,13 +15,13 @@ function App() {
 
             <div style={{width: "1%"}}/>
 
-            <div style={{width: "30%"}}>
+            <div style={{width: "50%"}}>
                 <CameraWindow/>
             </div>
 
             <div style={{width: "3%"}}/>
 
-            <div style={{width: "60%"}}>
+            <div style={{width: "40%"}}>
                 <GraphicsWindow ear={affectedEar}/>
             </div>
 
