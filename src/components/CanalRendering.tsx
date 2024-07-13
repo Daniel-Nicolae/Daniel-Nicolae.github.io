@@ -43,14 +43,24 @@ const CanalRendering = ({canal, ear}: Props) => {
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera(60, 1)
-        camera.current.position.set(0, 0, canal === "all" ? 25: 10) 
+        camera.current = new THREE.PerspectiveCamera(15, 1)
+        camera.current.position.set(0, 0, canal === "all" ? 100 : 40) 
         camera.current.lookAt(0, 0, 0)
 
 
         // Add lights
         const sectionHighlight = new THREE.AmbientLight(0xffffff, 0.8)
         scene.current.add(sectionHighlight)
+
+        const pointLight1 = new THREE.PointLight(0xffffff, 1000)
+        pointLight1.castShadow = true
+        pointLight1.position.set(0, 0, 20)
+        scene.current.add(pointLight1)
+
+        const pointLight2 = new THREE.PointLight(0xffffff, 1000)
+        pointLight2.castShadow = true
+        pointLight2.position.set(0, 20, 0)
+        scene.current.add(pointLight2)
 
 
         // Load Canal Mesh
