@@ -44,7 +44,7 @@ const CanalRendering = ({canal, ear}: Props) => {
 
         // Camera initialisation
         camera.current = new THREE.PerspectiveCamera(15, 1)
-        camera.current.position.set(0, 0, canal === "all" ? 100 : 40) 
+        camera.current.position.set(0, 0, canal === "all" ? 80 : 40) 
         camera.current.lookAt(0, 0, 0)
 
 
