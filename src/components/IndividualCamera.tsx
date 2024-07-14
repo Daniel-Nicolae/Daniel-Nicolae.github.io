@@ -13,14 +13,11 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
 
     // checkbox handler
     const [active, setActive] = useState(false)
-
     const handleChange = () => {
-        // clearInterval(loop)
         setActive(!active)
     }
 
     // face model loader
-    let loop: number 
     const model = useRef<vision.FaceLandmarker>() as React.MutableRefObject<vision.FaceLandmarker>
     useEffect(() => {
         createFaceLandmarker(model)
@@ -30,26 +27,51 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
 
 
     // model inference 
+    let loop: number
     const handleVideoLoad = async (videoNode: SyntheticEvent) => {
 
         const video = videoNode.target as HTMLVideoElement
         if (video.readyState !== 4) return
 
-        loop = requestAnimationFrame(modelLoop)
+        const canvasElement = document.getElementById("modelCanvas" + number) as HTMLCanvasElement
 
-        function modelLoop() {
-            if (active) {
+        canvasElement.setAttribute("width", "300")
+        canvasElement.setAttribute("height", "300")
+
+        const canvasCtx = canvasElement.getContext("2d")!
+        const drawingUtils = new DrawingUtils(canvasCtx)
+
+        loop = requestAnimationFrame(renderLoop)
+
+        let lastVideoTime = -1
+        function renderLoop() {
+            
+            let startTimeMs = performance.now()
+            if (video.currentTime !== lastVideoTime) {
+
+                // inference
+                lastVideoTime = video.currentTime
+                const faceLandmarkerResult = model.current.detectForVideo(video, startTimeMs)
                 
-                // const video = document.getElementById("camera" + number) as HTMLVideoElement
-                
-                console.log(video.height)
-    
+
+                // drawing
+                landmarksRef.current = faceLandmarkerResult.faceLandmarks[0]
+                if (landmarksRef.current) {
+
+                    canvasCtx.clearRect(0, 0, 300, 300)
+
+                    drawingUtils.drawConnectors(
+                        landmarksRef.current,
+                        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
+                        { color: "#000000", lineWidth: 0.6 }
+                    )
+                }
+                else canvasCtx.clearRect(0, 0, 300, 300)
             }
-            loop = requestAnimationFrame(modelLoop)
+
+            loop = requestAnimationFrame(renderLoop)
         }
     }
-    
-    
 
 
     return (
