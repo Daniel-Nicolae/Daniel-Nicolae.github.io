@@ -67,6 +67,7 @@ const IndividualCamera = ({number, ID}: Props) => {
                         { color: "#000000", lineWidth: 1 }
                     )
                 }
+                else canvasCtx.clearRect(0, 0, 300, 300)
             }
 
             loop = requestAnimationFrame(renderLoop)
