@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import Webcam from "react-webcam"
 import IndividualCamera from "./IndividualCamera"
+import vision from "@mediapipe/tasks-vision"
 
 
 
@@ -24,14 +25,22 @@ const CameraWindow = () => {
 
 
     const cameraViews = []
-    for (let i=0; i<numberOfDevices.current; i++) 
+    const cameraLandmarksRefs = [useRef<vision.NormalizedLandmark[]>([]),
+                                 useRef<vision.NormalizedLandmark[]>([]),
+                                 useRef<vision.NormalizedLandmark[]>([]),
+                                 useRef<vision.NormalizedLandmark[]>([])]
+
+    for (let i=0; i<numberOfDevices.current; i++) {
+
         cameraViews.push(
             <IndividualCamera
                 number={i+1}
                 ID={cameraIDs[i]}
-            /> 
-    )
+                landmarksRef={cameraLandmarksRefs[i]}
+            />)
 
+        
+    }
 
 
     return (
