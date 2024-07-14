@@ -10,6 +10,7 @@ async function createFaceLandmarker(landmarkerRef: React.MutableRefObject<vision
             delegate: "GPU"
         },
         runningMode: "VIDEO",
+        minFaceDetectionConfidence: 0.9,
         numFaces: 1
     })
 }
