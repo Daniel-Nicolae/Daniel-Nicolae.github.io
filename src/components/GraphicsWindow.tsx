@@ -1,11 +1,13 @@
 import CanalRendering from "./CanalRendering"
+import vision from "@mediapipe/tasks-vision"
 
 interface Props {
     ear: "left" | "right"
+    landmarksRef: React.MutableRefObject<vision.NormalizedLandmark[]>
 }
 
 
-const GraphicsWindow = ({ear}: Props) => {
+const GraphicsWindow = ({ear, landmarksRef}: Props) => {
 
     return (
         <>
