@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useEffect, useRef, useState } from "react"
 import Webcam from "react-webcam"
 import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
+import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 
 interface Props {
     number: number
@@ -35,8 +36,8 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
 
         const canvasElement = document.getElementById("modelCanvas" + number) as HTMLCanvasElement
 
-        canvasElement.setAttribute("width", "300")
-        canvasElement.setAttribute("height", "300")
+        canvasElement.setAttribute("width", "" + cameraSize)
+        canvasElement.setAttribute("height", "" + cameraSize)
 
         const canvasCtx = canvasElement.getContext("2d")!
         const drawingUtils = new DrawingUtils(canvasCtx)
@@ -57,23 +58,25 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                 landmarksRef.current = faceLandmarkerResult.faceLandmarks[0]
                 if (landmarksRef.current) {
 
-                    canvasCtx.clearRect(0, 0, 300, 300)
+                    canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
 
                     drawingUtils.drawConnectors(
                         landmarksRef.current,
                         FaceLandmarker.FACE_LANDMARKS_TESSELATION,
                         { color: "#000000", lineWidth: 0.6 }
                     )
-                    drawingUtils.drawLandmarks([landmarksRef.current[168], landmarksRef.current[2], 
-                                                landmarksRef.current[229], landmarksRef.current[28], 
-                                                landmarksRef.current[449], landmarksRef.current[258], 
-                                                // landmarksRef.current[137], landmarksRef.current[93],
-                                                // landmarksRef.current[366], landmarksRef.current[323]
-                                                ],
-                                                {radius: 4, lineWidth: 2, fillColor: "#FFFFFF", color: "#0022AA"}
-                                            )
+
+                    const usefulLandmarks = []
+                    for (let i=0; i<landmarksRef.current.length; i++) {
+                        if (i in usefulLandmarksIDs) // or i in earLandmarksIDs
+                            usefulLandmarks.push(landmarksRef.current[i])
+                    }
+
+                    drawingUtils.drawLandmarks(usefulLandmarks,
+                                            {radius: 4, lineWidth: 2, 
+                                            fillColor: "#FFFFFF", color: "#0022AA"})
                 }
-                else canvasCtx.clearRect(0, 0, 300, 300)
+                else canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
             }
 
             loop = requestAnimationFrame(renderLoop)
@@ -85,7 +88,7 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
         <>
         <div style={{height: 5}}/>
 
-        <div style={{display: "flex", flexDirection: "row", height: active ? 300 : 10, alignItems: "center"}}>
+        <div style={{display: "flex", flexDirection: "row", height: active ? cameraSize : 10, alignItems: "center"}}>
             <input
                 type="checkbox"
                 checked={active}
@@ -98,18 +101,18 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
             <div style={{width: 40}}/>
 
             {active && 
-            <div style={{position: "relative", height: active ? 300 : 10}}>
+            <div style={{position: "relative", height: active ? cameraSize : 10}}>
                 <Webcam
                     id={"camera" + number} 
                     videoConstraints={{
-                        width: 700,
-                        height: 700,
+                        width: videoSize,
+                        height: videoSize,
                         deviceId: ID
                     }}
                     style={{
                         position: "absolute",
                         top: 0, left: 0,
-                        width: 300
+                        width: cameraSize
                     }}
                     onLoadedData={handleVideoLoad}/>
 
