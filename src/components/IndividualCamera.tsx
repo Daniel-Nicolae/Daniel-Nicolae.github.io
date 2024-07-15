@@ -55,28 +55,32 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                 
 
                 // drawing
-                landmarksRef.current = faceLandmarkerResult.faceLandmarks[0]
-                if (landmarksRef.current) {
+                if (faceLandmarkerResult.faceLandmarks[0]) {
 
+                    // extract useful landmarks only and save in ref
+                    const usefulLandmarks: vision.NormalizedLandmark[] = []
+                    faceLandmarkerResult.faceLandmarks[0].map(
+                        (value, index) => {
+                            if (usefulLandmarksIDs.includes(index)) 
+                                usefulLandmarks.push(value)})
+                    landmarksRef.current = usefulLandmarks
+
+                    // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
-
                     drawingUtils.drawConnectors(
-                        landmarksRef.current,
+                        faceLandmarkerResult.faceLandmarks[0],
                         FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                        { color: "#000000", lineWidth: 0.6 }
-                    )
+                        { color: "#000000", lineWidth: 0.6 })
 
-                    const usefulLandmarks = []
-                    for (let i=0; i<landmarksRef.current.length; i++) {
-                        if (i in usefulLandmarksIDs) // or i in earLandmarksIDs
-                            usefulLandmarks.push(landmarksRef.current[i])
-                    }
-
+                    // draw useful landmarks
                     drawingUtils.drawLandmarks(usefulLandmarks,
                                             {radius: 4, lineWidth: 2, 
                                             fillColor: "#FFFFFF", color: "#0022AA"})
                 }
-                else canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
+                else {
+                    landmarksRef.current = []
+                    canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
+                }
             }
 
             loop = requestAnimationFrame(renderLoop)
