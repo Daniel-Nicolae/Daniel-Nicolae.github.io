@@ -41,9 +41,8 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
         const canvasCtx = canvasElement.getContext("2d")!
         const drawingUtils = new DrawingUtils(canvasCtx)
 
-        loop = requestAnimationFrame(renderLoop)
-
         let lastVideoTime = -1
+        loop = requestAnimationFrame(renderLoop)
         function renderLoop() {
             
             let startTimeMs = performance.now()
@@ -65,6 +64,14 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                         FaceLandmarker.FACE_LANDMARKS_TESSELATION,
                         { color: "#000000", lineWidth: 0.6 }
                     )
+                    drawingUtils.drawLandmarks([landmarksRef.current[168], landmarksRef.current[2], 
+                                                landmarksRef.current[229], landmarksRef.current[28], 
+                                                landmarksRef.current[449], landmarksRef.current[258], 
+                                                // landmarksRef.current[137], landmarksRef.current[93],
+                                                // landmarksRef.current[366], landmarksRef.current[323]
+                                                ],
+                                                {radius: 4, lineWidth: 2, fillColor: "#FFFFFF", color: "#0022AA"}
+                                            )
                 }
                 else canvasCtx.clearRect(0, 0, 300, 300)
             }
@@ -85,28 +92,35 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                 onChange={handleChange}
             /> 
 
-            <div style={{fontSize: 20}}> Camera {number} </div>
+            <div style={{fontSize: 20}}> Camera {number} </div> 
             
 
             <div style={{width: 40}}/>
 
             {active && 
-            <Webcam
-                id={"camera" + number} 
-                videoConstraints={{
-                    width: 700,
-                    height: 700,
-                    deviceId: ID
-                }}
-                style={{
-                    width: 300
-                }}
-                onLoadedData={handleVideoLoad}
-            />}
+            <div style={{position: "relative", height: active ? 300 : 10}}>
+                <Webcam
+                    id={"camera" + number} 
+                    videoConstraints={{
+                        width: 700,
+                        height: 700,
+                        deviceId: ID
+                    }}
+                    style={{
+                        position: "absolute",
+                        top: 0, left: 0,
+                        width: 300
+                    }}
+                    onLoadedData={handleVideoLoad}/>
 
-            {active && 
-            <canvas id={"modelCanvas" + number}/>
-            }
+                <canvas 
+                    id={"modelCanvas" + number}
+                    style={{
+                        position: "absolute",
+                        top: 0, left: 0
+                    }}/>
+                
+            </div>}
 
         </div>
 
