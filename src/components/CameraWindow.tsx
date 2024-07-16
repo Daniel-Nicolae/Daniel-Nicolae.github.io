@@ -12,9 +12,7 @@ interface Props {
 
 const CameraWindow = ({landmarksRef}: Props) => {
 
-    const numberOfDevices = useRef<number>(1)
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
-
 
 
     useEffect(() => {
@@ -23,35 +21,39 @@ const CameraWindow = ({landmarksRef}: Props) => {
             const cameraDevices = devices.filter((item) => item.kind === "videoinput")
             const cameraIDs_temp = cameraDevices.map((item, index) => item.deviceId)
             setCameraIDs(cameraIDs_temp)
-            numberOfDevices.current = cameraIDs_temp.length
         }
         getDevices()
-    }, [])
+        // let loop = setInterval(() => {computeAverageLandmarks(cameraLandmarksRefs, landmarksRef)}, 1000)
 
+        return () => {
+            // clearInterval(loop)
+        }
+     }, [])
 
-    const cameraViews = []
     const cameraLandmarksRefs = [useRef<vision.NormalizedLandmark[]>([]),
-                                 useRef<vision.NormalizedLandmark[]>([]),
                                  useRef<vision.NormalizedLandmark[]>([]),
                                  useRef<vision.NormalizedLandmark[]>([])]
 
-    // setInterval(() => {computeAverageLandmarks(cameraLandmarksRefs, landmarksRef)}, 20)
-
-    for (let i=0; i<numberOfDevices.current; i++) {
-
-        cameraViews.push(
-            <IndividualCamera
-                number={i+1}
-                ID={cameraIDs[i]}
-                landmarksRef={cameraLandmarksRefs[i]}
-            />)
-    }
-
-
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-        
-            <tbody>{cameraViews}</tbody>
+
+            <IndividualCamera
+                    number={1}
+                    IDs={cameraIDs}
+                    landmarksRef={cameraLandmarksRefs[0]}
+                />
+
+            <IndividualCamera
+                    number={2}
+                    IDs={cameraIDs}
+                    landmarksRef={cameraLandmarksRefs[1]}
+                />
+
+            <IndividualCamera
+                    number={3}
+                    IDs={cameraIDs}
+                    landmarksRef={cameraLandmarksRefs[2]}
+                />
 
         </div>
     )

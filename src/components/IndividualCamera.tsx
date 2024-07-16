@@ -6,16 +6,16 @@ import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 
 interface Props {
     number: number
-    ID: string
+    IDs: string[]
     landmarksRef: React.MutableRefObject<vision.NormalizedLandmark[]>
 }
 
-const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
+const IndividualCamera = ({number, IDs, landmarksRef}: Props) => {
 
-    // checkbox handler
-    const [active, setActive] = useState(false)
-    const handleChange = () => {
-        setActive(!active)
+    // toggle handler
+    const [IDi, setIDi] = useState(number-1)
+    const handleToggle = () => {
+        setIDi((IDi + 1) % 3)
     }
 
     // face model loader
@@ -58,12 +58,7 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                 if (faceLandmarkerResult.faceLandmarks[0]) {
 
                     // extract useful landmarks only and save in ref
-                    const usefulLandmarks: vision.NormalizedLandmark[] = []
-                    faceLandmarkerResult.faceLandmarks[0].map(
-                        (value, index) => {
-                            if (usefulLandmarksIDs.includes(index)) 
-                                usefulLandmarks.push(value)})
-                    landmarksRef.current = usefulLandmarks
+                    landmarksRef.current = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
@@ -73,7 +68,7 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                         { color: "#000000", lineWidth: 0.6 })
 
                     // draw useful landmarks
-                    drawingUtils.drawLandmarks(usefulLandmarks,
+                    drawingUtils.drawLandmarks(landmarksRef.current,
                                             {radius: 4, lineWidth: 2, 
                                             fillColor: "#FFFFFF", color: "#0022AA"})
                 }
@@ -92,26 +87,23 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
         <>
         <div style={{height: 5}}/>
 
-        <div style={{display: "flex", flexDirection: "row", height: active ? cameraSize : 10, alignItems: "center"}}>
-            <input
-                type="checkbox"
-                checked={active}
-                onChange={handleChange}
-            /> 
+        <div style={{display: "flex", flexDirection: "row", height: cameraSize, alignItems: "center"}}>
 
-            <div style={{fontSize: 20}}> Camera {number} </div> 
-            
+            <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center"}}>
+                <div style={{fontSize: 20}}> Camera {number} </div> 
+                <div style={{height: 5}}/>
+                <button onClick={handleToggle}> Toggle </button>
+            </div> 
 
             <div style={{width: 40}}/>
 
-            {active && 
-            <div style={{position: "relative", height: active ? cameraSize : 10}}>
+            <div style={{position: "relative", height: cameraSize}}>
                 <Webcam
                     id={"camera" + number} 
                     videoConstraints={{
                         width: videoSize,
                         height: videoSize,
-                        deviceId: ID
+                        deviceId: IDs[IDi]
                     }}
                     style={{
                         position: "absolute",
@@ -127,7 +119,7 @@ const IndividualCamera = ({number, ID, landmarksRef}: Props) => {
                         top: 0, left: 0
                     }}/>
                 
-            </div>}
+            </div>
 
         </div>
 
