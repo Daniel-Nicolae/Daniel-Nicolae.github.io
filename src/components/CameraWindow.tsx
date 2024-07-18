@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from "react"
-import Webcam from "react-webcam"
 import IndividualCamera from "./IndividualCamera"
-import vision from "@mediapipe/tasks-vision"
 import computeAverageLandmarks from "../utils/averageLandmarks"
+import { Matrix3 } from "three"
 
 
 interface Props {
-    landmarksRef: React.MutableRefObject<vision.NormalizedLandmark[]>
+    matrixRef: React.MutableRefObject<Matrix3>
 }
 
 
-const CameraWindow = ({landmarksRef}: Props) => {
+const CameraWindow = ({matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
 
@@ -23,16 +22,16 @@ const CameraWindow = ({landmarksRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
-        // let loop = setInterval(() => {computeAverageLandmarks(cameraLandmarksRefs, landmarksRef)}, 1000)
+        let loop = setInterval(() => {computeAverageLandmarks(cameraMatrixRefs, matrixRef)}, 1000)
 
         return () => {
-            // clearInterval(loop)
+            clearInterval(loop)
         }
      }, [])
 
-    const cameraLandmarksRefs = [useRef<vision.NormalizedLandmark[]>([]),
-                                 useRef<vision.NormalizedLandmark[]>([]),
-                                 useRef<vision.NormalizedLandmark[]>([])]
+    const cameraMatrixRefs = [useRef<Matrix3>(new Matrix3()),
+                              useRef<Matrix3>(new Matrix3()),
+                              useRef<Matrix3>(new Matrix3())]
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
@@ -40,19 +39,19 @@ const CameraWindow = ({landmarksRef}: Props) => {
             <IndividualCamera
                     number={1}
                     IDs={cameraIDs}
-                    landmarksRef={cameraLandmarksRefs[0]}
+                    matrixRef={cameraMatrixRefs[0]}
                 />
 
             <IndividualCamera
                     number={2}
                     IDs={cameraIDs}
-                    landmarksRef={cameraLandmarksRefs[1]}
+                    matrixRef={cameraMatrixRefs[1]}
                 />
 
             <IndividualCamera
                     number={3}
                     IDs={cameraIDs}
-                    landmarksRef={cameraLandmarksRefs[2]}
+                    matrixRef={cameraMatrixRefs[2]}
                 />
 
         </div>

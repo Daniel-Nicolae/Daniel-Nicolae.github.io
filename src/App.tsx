@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './App.css';
 import CameraWindow from "./components/CameraWindow"
 import GraphicsWindow from './components/GraphicsWindow';
-import vision from "@mediapipe/tasks-vision"
+import { Matrix3 } from 'three';
 
 function App() {
 
-    const currentCameraRef = useRef(0)
     const [affectedEar, setAffectedEar] = useState<"left"|"right">("left")
-    const landmarksRef =  useRef<vision.NormalizedLandmark[]>([])
+    const matrixRef =  useRef<Matrix3>(new Matrix3())
 
 
     return (
@@ -20,7 +19,7 @@ function App() {
 
             <div style={{width: "50%"}}>
                 <CameraWindow 
-                    landmarksRef={landmarksRef}/>
+                    matrixRef={matrixRef}/>
             </div>
 
             <div style={{width: "3%"}}/>
@@ -28,7 +27,7 @@ function App() {
             <div style={{width: "40%"}}>
                 <GraphicsWindow 
                     ear={affectedEar}
-                    landmarksRef={landmarksRef}/>
+                    matrixRef={matrixRef}/>
             </div>
 
             <div style={{width: "1%"}}/>

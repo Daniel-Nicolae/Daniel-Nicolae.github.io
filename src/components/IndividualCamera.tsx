@@ -3,14 +3,16 @@ import Webcam from "react-webcam"
 import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
+import { cameraMatrices } from "../utils/cameraPositions"
+import { Matrix3, Vector3 } from "three"
 
 interface Props {
     number: number
     IDs: string[]
-    landmarksRef: React.MutableRefObject<vision.NormalizedLandmark[]>
+    matrixRef: React.MutableRefObject<Matrix3>
 }
 
-const IndividualCamera = ({number, IDs, landmarksRef}: Props) => {
+const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -58,7 +60,11 @@ const IndividualCamera = ({number, IDs, landmarksRef}: Props) => {
                 if (faceLandmarkerResult.faceLandmarks[0]) {
 
                     // extract useful landmarks only and save in ref
-                    landmarksRef.current = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
+                    const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
+                    matrixRef.current.set(usefulLandmarks[2].x, usefulLandmarks[4].x, usefulLandmarks[0].x, 
+                                             usefulLandmarks[2].y, usefulLandmarks[4].y, usefulLandmarks[0].y, 
+                                             usefulLandmarks[2].z, usefulLandmarks[4].z, usefulLandmarks[0].z)
+                    matrixRef.current.multiply(cameraMatrices[IDi])
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
@@ -68,12 +74,12 @@ const IndividualCamera = ({number, IDs, landmarksRef}: Props) => {
                         { color: "#000000", lineWidth: 0.6 })
 
                     // draw useful landmarks
-                    drawingUtils.drawLandmarks(landmarksRef.current,
+                    drawingUtils.drawLandmarks(usefulLandmarks,
                                             {radius: 4, lineWidth: 2, 
                                             fillColor: "#FFFFFF", color: "#0022AA"})
                 }
                 else {
-                    landmarksRef.current = []
+                    matrixRef.current.set(0, 0, 0, 0, 0, 0, 0, 0, 0)
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
                 }
             }
