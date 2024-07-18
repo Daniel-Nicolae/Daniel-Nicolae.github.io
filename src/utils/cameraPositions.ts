@@ -1,3 +1,3 @@
-import { Matrix3, Vector3 } from "three";
+import { Matrix4, Vector3 } from "three";
 
-export const cameraMatrices = [new Matrix3(), new Matrix3(), new Matrix3()]
+export const cameraMatrices = [new Matrix4(), new Matrix4(), new Matrix4()]

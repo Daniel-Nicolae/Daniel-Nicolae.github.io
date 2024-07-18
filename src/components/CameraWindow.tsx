@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
 import IndividualCamera from "./IndividualCamera"
 import computeAverageLandmarks from "../utils/averageLandmarks"
-import { Matrix3 } from "three"
+import { Matrix4 } from "three"
 
 
 interface Props {
-    matrixRef: React.MutableRefObject<Matrix3>
+    matrixRef: React.MutableRefObject<Matrix4>
 }
 
 
@@ -22,16 +22,16 @@ const CameraWindow = ({matrixRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
-        let loop = setInterval(() => {computeAverageLandmarks(cameraMatrixRefs, matrixRef)}, 1000)
+        let loop = setInterval(() => {computeAverageLandmarks(cameraMatrixRefs, matrixRef)}, 30)
 
         return () => {
             clearInterval(loop)
         }
      }, [])
 
-    const cameraMatrixRefs = [useRef<Matrix3>(new Matrix3()),
-                              useRef<Matrix3>(new Matrix3()),
-                              useRef<Matrix3>(new Matrix3())]
+    const cameraMatrixRefs = [useRef<Matrix4>(new Matrix4()),
+                              useRef<Matrix4>(new Matrix4()),
+                              useRef<Matrix4>(new Matrix4())]
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>

@@ -2,13 +2,12 @@ import { useRef, useState } from 'react';
 import './App.css';
 import CameraWindow from "./components/CameraWindow"
 import GraphicsWindow from './components/GraphicsWindow';
-import { Matrix3 } from 'three';
+import { Matrix4 } from 'three';
 
 function App() {
 
     const [affectedEar, setAffectedEar] = useState<"left"|"right">("left")
-    const matrixRef =  useRef<Matrix3>(new Matrix3())
-
+    const matrixRef =  useRef<Matrix4>(new Matrix4())
 
     return (
         <>

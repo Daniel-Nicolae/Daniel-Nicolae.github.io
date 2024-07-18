@@ -6,9 +6,10 @@ import { meshPartsLength } from "../utils/alignment";
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
     ear: "left" | "right"
+    matrixRef: React.MutableRefObject<THREE.Matrix4>
 }
 
-const CanalRendering = ({canal, ear}: Props) => {
+const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
 
     const [active, setActive] = useState(true)
@@ -81,10 +82,16 @@ const CanalRendering = ({canal, ear}: Props) => {
         }
 
         let loop: number = requestAnimationFrame(animate)
-
+        let d = 0
         function animate() {
             if (meshParts.current[meshPartsLength[canal] - 1]) {
-                for (let mesh of meshParts.current) mesh.rotation.set(Math.PI, 0, 0)
+                for (let mesh of meshParts.current) {
+                    mesh.rotation.set(Math.PI, 0, 0)
+                    if (canal === "posterior" && d < 10) {
+                        console.log(d, matrixRef.current)
+                        d += 1}
+                    mesh.applyMatrix4(matrixRef.current)
+                }
                 // const landmarks = landmarksCallback()
                 // if (landmarks[0]) {
                 //     const rotationMatrix = getRotationMatrix(landmarks, ear, canal, currentCamera)
@@ -102,7 +109,7 @@ const CanalRendering = ({canal, ear}: Props) => {
             meshParts.current = [] // flush any previous loadings
         }
 
-    }, [ear, active])
+    }, [ear, active, matrixRef])
 
 
     return (

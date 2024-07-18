@@ -1,19 +1,16 @@
-import { Matrix3 } from "three";
+import { Matrix4 } from "three";
 
-const computeAverageLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Matrix3>[],
-                                 landmarksRef: React.MutableRefObject<Matrix3>) => {
+const computeAverageLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix4>[],
+                                 matrixRef: React.MutableRefObject<Matrix4>) => {
 
     // let s: number
     // for (let i=0; i<3; i++) {
     //     s = 0
-    //     for (let landmark of cameraLandmarksRefs[i].current) s += landmark.x
+    //     for (let landmark of cameraMatrixRefs[i].current) s += landmark.x
     //     console.log(i, s)
     // }
     // console.log("##################")
-    if (cameraLandmarksRefs[0].current.determinant()) {
-        console.log(cameraLandmarksRefs[0].current.elements[0])
-        landmarksRef.current = cameraLandmarksRefs[0].current
-    }
+    matrixRef.current = cameraMatrixRefs[0].current
 }
 
 

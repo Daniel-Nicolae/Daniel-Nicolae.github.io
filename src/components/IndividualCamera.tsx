@@ -3,13 +3,13 @@ import Webcam from "react-webcam"
 import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
-import { cameraMatrices } from "../utils/cameraPositions"
-import { Matrix3, Vector3 } from "three"
+import { Matrix4, Vector3 } from "three"
+import getRotationMatrix from "../utils/getRotationMatrix"
 
 interface Props {
     number: number
     IDs: string[]
-    matrixRef: React.MutableRefObject<Matrix3>
+    matrixRef: React.MutableRefObject<Matrix4>
 }
 
 const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
@@ -61,10 +61,8 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
 
                     // extract useful landmarks only and save in ref
                     const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
-                    matrixRef.current.set(usefulLandmarks[2].x, usefulLandmarks[4].x, usefulLandmarks[0].x, 
-                                             usefulLandmarks[2].y, usefulLandmarks[4].y, usefulLandmarks[0].y, 
-                                             usefulLandmarks[2].z, usefulLandmarks[4].z, usefulLandmarks[0].z)
-                    matrixRef.current.multiply(cameraMatrices[IDi])
+                    const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, item.y, item.z))
+                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]], IDi)
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
@@ -79,7 +77,6 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
                                             fillColor: "#FFFFFF", color: "#0022AA"})
                 }
                 else {
-                    matrixRef.current.set(0, 0, 0, 0, 0, 0, 0, 0, 0)
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
                 }
             }
