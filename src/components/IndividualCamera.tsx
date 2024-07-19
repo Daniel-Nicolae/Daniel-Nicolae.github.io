@@ -5,6 +5,7 @@ import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 import { Matrix4, Vector3 } from "three"
 import getRotationMatrix from "../utils/getRotationMatrix"
+import MeshToggler from "./MeshToggler"
 
 interface Props {
     number: number
@@ -97,14 +98,8 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
                 <div style={{fontSize: 20}}> Camera {number} </div> 
                 <div style={{height: 5}}/>
                 <button onClick={handleToggle}> Toggle </button>
-                <div>
                 <div style={{height: 5}}/>
-                    <input
-                        type="checkbox"
-                        checked={drawMesh.current}
-                        onChange={() => {drawMesh.current = !drawMesh.current}}
-                    /> Draw facial mesh
-                </div>
+                <MeshToggler drawMeshRef={drawMesh}/>
             </div> 
 
             <div style={{width: 40}}/>
