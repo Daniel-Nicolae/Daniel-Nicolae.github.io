@@ -17,7 +17,7 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
     const handleToggle = () => {
-        setIDi((IDi + 1) % 3)
+        setIDi((IDi + 1) % IDs.length)
     }
 
     // facemesh drawing
