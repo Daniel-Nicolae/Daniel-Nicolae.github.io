@@ -87,9 +87,6 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
             if (meshParts.current[meshPartsLength[canal] - 1]) {
                 for (let mesh of meshParts.current) {
                     mesh.rotation.set(Math.PI, 0, 0)
-                    if (canal === "posterior" && d < 10) {
-                        console.log(d, matrixRef.current)
-                        d += 1}
                     mesh.applyMatrix4(matrixRef.current)
                 }
                 // const landmarks = landmarksCallback()

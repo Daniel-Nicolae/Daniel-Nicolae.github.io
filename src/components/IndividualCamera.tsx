@@ -20,17 +20,20 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
         setIDi((IDi + 1) % 3)
     }
 
+    // facemesh drawing
+    const drawMesh = useRef(false)
+
     // face model loader
     const model = useRef<vision.FaceLandmarker>() as React.MutableRefObject<vision.FaceLandmarker>
     useEffect(() => {
         createFaceLandmarker(model)
 
-        return () => {cancelAnimationFrame(loop)}
+        return () => {clearInterval(loop)}
     })
 
 
     // model inference 
-    let loop: number
+    let loop: NodeJS.Timer
     const handleVideoLoad = async (videoNode: SyntheticEvent) => {
 
         const video = videoNode.target as HTMLVideoElement
@@ -45,7 +48,7 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
         const drawingUtils = new DrawingUtils(canvasCtx)
 
         let lastVideoTime = -1
-        loop = requestAnimationFrame(renderLoop)
+        loop = setInterval(renderLoop, 30)
         function renderLoop() {
             
             let startTimeMs = performance.now()
@@ -66,10 +69,10 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
-                    drawingUtils.drawConnectors(
-                        faceLandmarkerResult.faceLandmarks[0],
-                        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                        { color: "#000000", lineWidth: 0.6 })
+                    if (drawMesh.current) drawingUtils.drawConnectors(
+                                            faceLandmarkerResult.faceLandmarks[0],
+                                            FaceLandmarker.FACE_LANDMARKS_TESSELATION,
+                                            { color: "#000000", lineWidth: 0.6 })
 
                     // draw useful landmarks
                     drawingUtils.drawLandmarks(usefulLandmarks,
@@ -80,8 +83,6 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
                 }
             }
-
-            loop = requestAnimationFrame(renderLoop)
         }
     }
 
@@ -96,6 +97,14 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
                 <div style={{fontSize: 20}}> Camera {number} </div> 
                 <div style={{height: 5}}/>
                 <button onClick={handleToggle}> Toggle </button>
+                <div>
+                <div style={{height: 5}}/>
+                    <input
+                        type="checkbox"
+                        checked={drawMesh.current}
+                        onChange={() => {drawMesh.current = !drawMesh.current}}
+                    /> Draw facial mesh
+                </div>
             </div> 
 
             <div style={{width: 40}}/>
