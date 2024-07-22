@@ -6,7 +6,7 @@ import { Matrix4 } from 'three';
 
 function App() {
 
-    const [affectedEar, setAffectedEar] = useState<"left"|"right">("left")
+    const [affectedEar, setAffectedEar] = useState<"left"|"right">("right")
     const matrixRef =  useRef<Matrix4>(new Matrix4())
 
     return (
@@ -16,14 +16,14 @@ function App() {
 
             <div style={{width: "1%"}}/>
 
-            <div style={{width: "50%"}}>
+            <div style={{width: "30%"}}>
                 <CameraWindow 
                     matrixRef={matrixRef}/>
             </div>
 
             <div style={{width: "3%"}}/>
 
-            <div style={{width: "40%"}}>
+            <div style={{width: "60%"}}>
                 <GraphicsWindow 
                     ear={affectedEar}
                     matrixRef={matrixRef}/>
