@@ -27,7 +27,9 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
     const ORANGE_COLOUR = 0xffbb33
     const BLUE_COLOUR = 0x0022aa
-    const BACKGR_COLOUR = 0xbbaa99
+    const BROWN_COLOUR = 0xbbaa99
+    const BACKGR_COLOUR = 0x666666
+    const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": BLUE_COLOUR}
 
 
     useEffect(() => {
@@ -35,7 +37,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
         // Renderer initialisation
         const canvas = document.getElementById("canalCanvas" + canal) as HTMLCanvasElement
         renderer.current = new THREE.WebGLRenderer({canvas: canvas})
-        const size = active ? 300 : 0
+        const size = active ? 400 : 0
 		renderer.current.setSize(size, size)
 
 
@@ -53,14 +55,14 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
         const sectionHighlight = new THREE.AmbientLight(0xffffff, 0.8)
         scene.current.add(sectionHighlight)
 
-        const pointLight1 = new THREE.PointLight(0xffffff, 1000)
+        const pointLight1 = new THREE.PointLight(0xffffff, 200)
         pointLight1.castShadow = true
-        pointLight1.position.set(0, 0, 20)
-        scene.current.add(pointLight1)
+        pointLight1.position.set(0, 0, 10)
+        // scene.current.add(pointLight1)
 
-        const pointLight2 = new THREE.PointLight(0xffffff, 1000)
+        const pointLight2 = new THREE.PointLight(0xffffff, 1500)
         pointLight2.castShadow = true
-        pointLight2.position.set(0, 20, 0)
+        pointLight2.position.set(0, 15, 8)
         scene.current.add(pointLight2)
 
 
@@ -70,7 +72,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
             const meshPath = "meshes/" + canal + "_" + i.toString() + ".ply"
             loader.load(meshPath, (geometry) => {
 
-                const color = (false) ? ORANGE_COLOUR : BLUE_COLOUR // to change for different colours
+                const color = canalColours[canal]
                 const material = new THREE.MeshStandardMaterial({color: color, side: THREE.DoubleSide, flatShading: true})
                 const loadedMesh = new THREE.Mesh(geometry, material);
 
@@ -89,13 +91,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
                     mesh.rotation.set(Math.PI, 0, 0)
                     mesh.applyMatrix4(matrixRef.current)
                 }
-                // const landmarks = landmarksCallback()
-                // if (landmarks[0]) {
-                //     const rotationMatrix = getRotationMatrix(landmarks, ear, canal, currentCamera)
-                //     for (let mesh of meshParts.current) mesh.applyMatrix4(rotationMatrix) 
-                // }
                 renderer.current!.render(scene.current!, camera.current!)
-                // alignment.current = getAlignment(canal, stage, meshParts.current[stage])
             }
             loop = requestAnimationFrame(animate)
         }
