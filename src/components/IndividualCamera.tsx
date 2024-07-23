@@ -65,7 +65,9 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
 
                     // extract useful landmarks only and save in ref
                     const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
-                    const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, item.y, item.z))
+
+                        // -y and -z to convert from y positive downwards (model) to upwards (rendering)
+                    const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, -item.y, -item.z))
                     matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]], IDi)
 
                     // draw face mesh

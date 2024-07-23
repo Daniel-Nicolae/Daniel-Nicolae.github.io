@@ -31,12 +31,6 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
     const BACKGR_COLOUR = 0x666666
     const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": BLUE_COLOUR}
 
-    const CTMatrix = new THREE.Matrix4( 1,  0,  0, 0, 
-                                        0,  0,  1, 0, 
-                                        0, -1,  0, 0,
-                                        0,  0,  0, 1)
-    CTMatrix.multiply(CTMatrix)
-
     useEffect(() => {
 
         // Renderer initialisation
@@ -95,7 +89,6 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
                 for (let mesh of meshParts.current) {
                     mesh.rotation.set(0, 0, 0)
                     mesh.applyMatrix4(matrixRef.current)
-                    mesh.applyMatrix4(CTMatrix)
                 }
                 renderer.current!.render(scene.current!, camera.current!)
             }
