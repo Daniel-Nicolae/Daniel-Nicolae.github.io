@@ -106,16 +106,21 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-        
-            <div style={{display: "flex", flexDirection: "row", height: 20, alignItems: "baseline", justifyContent: "center"}}>
+
+            <div style={{height: 5}}/>
+            <div className="form-check form-switch"
+                 style={{display: "flex", flexDirection: "row", height: 20, alignItems: "center", justifyContent: "center"}}>
                 <input
+                    className="form-check-input"
+                    id={"switch" + canal}
                     type="checkbox"
                     checked={active}
                     onChange={handleChange}
                 /> 
+                <div style={{width: 5}}/>
                 <div style={{fontSize: 20}}>{canal}</div>
             </div>
-            <div style={{height: 10}}/>
+            <div style={{height: 5}}/>
 
             <canvas id={"canalCanvas" + canal}/>
         

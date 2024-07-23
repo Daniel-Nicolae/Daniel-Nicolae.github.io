@@ -98,10 +98,10 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
 
             <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center"}}>
                 <div style={{fontSize: 20}}> Camera {number} </div> 
-                <div style={{height: 5}}/>
-                <button onClick={handleToggle}> Toggle </button>
-                <div style={{height: 5}}/>
-                <MeshToggler drawMeshRef={drawMesh}/>
+                <div style={{height: 10}}/>
+                <button className="btn btn-outline-dark" onClick={handleToggle}> Toggle </button>
+                <div style={{height: 10}}/>
+                <MeshToggler number={number} drawMeshRef={drawMesh}/>
             </div> 
 
             <div style={{width: 25}}/>

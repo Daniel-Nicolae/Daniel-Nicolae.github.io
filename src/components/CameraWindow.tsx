@@ -35,6 +35,7 @@ const CameraWindow = ({matrixRef}: Props) => {
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
+            <div style={{height: 10}}/>  
 
             <IndividualCamera
                     number={1}

@@ -1,10 +1,11 @@
 import { useState } from "react"
 
 interface Props {
+    number: number
     drawMeshRef: React.MutableRefObject<boolean>
 }
 
-const MeshToggler = ({drawMeshRef}: Props) => {
+const MeshToggler = ({number, drawMeshRef}: Props) => {
 
     const [drawMesh, setDrawMesh] = useState(drawMeshRef.current)
     const handleMeshToggle = () => {
@@ -13,12 +14,15 @@ const MeshToggler = ({drawMeshRef}: Props) => {
     }
 
     return (
-        <div>
+        <div className="form-check form-switch">
             <input
+                id={"switch" + number}
+                className="form-check-input"
                 type="checkbox"
                 checked={drawMeshRef.current}
                 onChange={handleMeshToggle}
-            /> Draw facial mesh
+            />
+            <label className="form-check-label" htmlFor={"switch" + number}>Draw facial mesh</label>
         </div>
     )
 }
