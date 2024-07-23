@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { meshPartsLength } from "../utils/alignment";
+import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR } from "../utils/config";
 
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
@@ -25,10 +26,6 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
 
 
-    const ORANGE_COLOUR = 0xffbb33
-    const BLUE_COLOUR = 0x0022aa
-    const BROWN_COLOUR = 0xaa9988
-    const BACKGR_COLOUR = 0xeeeeee
     const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": 0}
     const coloursAll = [BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, 0x333333, 0x333333]
 
