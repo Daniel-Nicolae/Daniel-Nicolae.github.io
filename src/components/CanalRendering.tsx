@@ -35,7 +35,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
         // Renderer initialisation
         const canvas = document.getElementById("canalCanvas" + canal) as HTMLCanvasElement
-        renderer.current = new THREE.WebGLRenderer({canvas: canvas})
+        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: true})
         const size = active ? 400 : 0
 		renderer.current.setSize(size, size)
 
