@@ -18,21 +18,21 @@ const GraphicsWindow = ({ear, matrixRef}: Props) => {
                         canal="posterior" 
                         ear={ear}
                         matrixRef={matrixRef}/>
-                    <div style={{width: 10}}/>
+                    <div style={{width: 30}}/>
                     <CanalRendering 
                         canal="anterior" 
                         ear={ear}
                         matrixRef={matrixRef}/>
                 </div>
 
-                <div style={{height: 10}}/>
+                <div style={{height: 5}}/>
 
                 <div style={{display: "flex", flexDirection: "row"}}>
                     <CanalRendering 
                         canal="lateral" 
                         ear={ear}
                         matrixRef={matrixRef}/>
-                    <div style={{width: 10}}/>
+                    <div style={{width: 30}}/>
                     <CanalRendering 
                         canal="all" 
                         ear={ear}

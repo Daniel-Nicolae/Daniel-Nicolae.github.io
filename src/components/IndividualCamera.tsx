@@ -104,7 +104,7 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
                 <MeshToggler drawMeshRef={drawMesh}/>
             </div> 
 
-            <div style={{width: 40}}/>
+            <div style={{width: 25}}/>
 
             <div style={{position: "relative", height: cameraSize}}>
                 <Webcam

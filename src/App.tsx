@@ -16,14 +16,12 @@ function App() {
 
             <div style={{width: "1%"}}/>
 
-            <div style={{width: "30%"}}>
+            <div style={{width: "25%"}}>
                 <CameraWindow 
                     matrixRef={matrixRef}/>
             </div>
 
-            <div style={{width: "3%"}}/>
-
-            <div style={{width: "60%"}}>
+            <div style={{width: "45%"}}>
                 <GraphicsWindow 
                     ear={affectedEar}
                     matrixRef={matrixRef}/>

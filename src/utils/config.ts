@@ -1,5 +1,5 @@
-export const cameraSize = 300
-export const videoSize = 300
+export const cameraSize = 280
+export const videoSize = 400
 
 // nasion, septum, right bottom orbit, right top orbit,
 // left bottom orbit, left top orbit
