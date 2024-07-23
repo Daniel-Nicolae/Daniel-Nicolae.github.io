@@ -27,9 +27,10 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
     const ORANGE_COLOUR = 0xffbb33
     const BLUE_COLOUR = 0x0022aa
-    const BROWN_COLOUR = 0xbbaa99
-    const BACKGR_COLOUR = 0x666666
-    const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": BLUE_COLOUR}
+    const BROWN_COLOUR = 0xaa9988
+    const BACKGR_COLOUR = 0xeeeeee
+    const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": 0}
+    const coloursAll = [BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, 0x333333, 0x333333]
 
     useEffect(() => {
 
@@ -46,7 +47,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
         // Camera initialisation
         camera.current = new THREE.PerspectiveCamera(15, 1)
-        camera.current.position.set(0, 0, canal === "all" ? 80 : 40) 
+        camera.current.position.set(0, 0, canal === "all" ? 70 : 39) 
         camera.current.lookAt(0, 0, 0)
 
 
@@ -59,7 +60,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
         pointLight1.position.set(0, 0, 10)
         // scene.current.add(pointLight1)
 
-        const pointLight2 = new THREE.PointLight(0xffffff, 1500)
+        const pointLight2 = new THREE.PointLight(0xffffff, canal === "all" ? 1000 : 1500)
         pointLight2.castShadow = true
         pointLight2.position.set(0, 15, 8)
         scene.current.add(pointLight2)
@@ -67,11 +68,13 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
 
         // Load Canal Mesh
         const loader = new PLYLoader()
+        let color = 0
+        if (canal !== "all") color = canalColours[canal]
         for (let i = 0; i < meshPartsLength[canal]; i++) {
             const meshPath = "meshes/" + canal + "_" + i.toString() + ".ply"
             loader.load(meshPath, (geometry) => {
 
-                const color = canalColours[canal]
+                if (canal === "all") color = coloursAll[i]
                 const material = new THREE.MeshStandardMaterial({color: color, side: THREE.DoubleSide, flatShading: true})
                 const loadedMesh = new THREE.Mesh(geometry, material);
 
