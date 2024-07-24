@@ -4,10 +4,14 @@ import CameraWindow from "./components/CameraWindow"
 import GraphicsWindow from './components/GraphicsWindow';
 import { Matrix4 } from 'three';
 import SelectWindow from './components/SelectWindow';
+import AlignmentWindow from './components/AlignmentWindow';
 
 function App() {
 
     const [affectedEar, setAffectedEar] = useState<"left"|"right">("right")
+    // const affectedEar = useRef<"left"|"right">("right")
+    // const setAffectedEar = (newEar: "left"|"right") => {affectedEar.current = newEar}
+
     const [affectedCanal, setAffectedCanal] = useState<"posterior"|"anterior"|"lateral"|"">("")
     const matrixRef =  useRef<Matrix4>(new Matrix4())
 
@@ -20,6 +24,7 @@ function App() {
 
             <div style={{width: "26%"}}>
                 <CameraWindow 
+                    ear={affectedEar}
                     matrixRef={matrixRef}/>
             </div>
 
@@ -29,16 +34,16 @@ function App() {
                     matrixRef={matrixRef}/>
             </div>
 
-            <div style={{width: "25%"}}>
+            <div style={{display: "flex", flexDirection: "column", width: "25%"}}>
                 <SelectWindow 
                     ear={affectedEar}
-                    earCallback={setAffectedEar}
                     canal={affectedCanal}
+                    earCallback={setAffectedEar}
                     canalCallback={setAffectedCanal}/>
+                <div style={{height: 100}}/>
+                <AlignmentWindow/>
+
             </div>
-
-            {affectedCanal}
-
         </div>
         </>
     );

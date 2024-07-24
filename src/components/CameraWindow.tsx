@@ -5,11 +5,12 @@ import { Matrix4 } from "three"
 
 
 interface Props {
+    ear: "left"|"right"
     matrixRef: React.MutableRefObject<Matrix4>
 }
 
 
-const CameraWindow = ({matrixRef}: Props) => {
+const CameraWindow = ({ear, matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
 
@@ -40,18 +41,21 @@ const CameraWindow = ({matrixRef}: Props) => {
             <IndividualCamera
                     number={1}
                     IDs={cameraIDs}
+                    ear={ear}
                     matrixRef={cameraMatrixRefs[0]}
                 />
 
             <IndividualCamera
                     number={2}
                     IDs={cameraIDs}
+                    ear={ear}
                     matrixRef={cameraMatrixRefs[1]}
                 />
 
             <IndividualCamera
                     number={3}
                     IDs={cameraIDs}
+                    ear={ear}
                     matrixRef={cameraMatrixRefs[2]}
                 />
 

@@ -3,12 +3,12 @@ import { useState } from "react"
 
 interface Props {
     ear: "left"|"right"
-    earCallback: (ear: "left"|"right") => void
     canal: "posterior"|"anterior"|"lateral"|""
+    earCallback: (ear: "left"|"right") => void
     canalCallback: (canal: "posterior"|"anterior"|"lateral") => void
 }
 
-const SelectWindow = ({ear, earCallback, canal, canalCallback}: Props) => {
+const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
 
     const [isHoverP, setIsHoverP] = useState(false)
     const [isHoverA, setIsHoverA] = useState(false)
@@ -35,66 +35,76 @@ const SelectWindow = ({ear, earCallback, canal, canalCallback}: Props) => {
 
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <div style={{height: 40}}/>
 
-            <div style={{fontSize: 24}}>Please select the affected canal</div>
+                <div style={{height: 40}}/>
+                <div style={{fontSize: 24}}>Please select the affected canal</div>
+                <div style={{height: 60}}/>
 
-            <div>
-            <button className="btn btn-lg"
-                    onClick={() => {canalCallback("posterior")}} 
-                    onMouseEnter={() => {handleMouseEnter("p")}}
-                    onMouseLeave={() => {handleMouseLeave("p")}}
-                    style={{backgroundColor: isHoverP ? "#0022AA" : "white", 
-                            borderColor: "#0022AA", 
-                            color: isHoverP ? "white" : "#0022AA"}}>Posterior</button>
-            <div style={{height: 10}}/>
+        <div style={{display: "flex", flexDirection: "row", width: "100%", alignItems: "center"}}>
+
+            <div style={{display: "flex", flexDirection: "column", width: "40%", alignItems: "center"}}>
+                
+                <div>
+                <button className="btn btn-lg"
+                        onClick={() => {canalCallback("posterior")}} 
+                        onMouseEnter={() => {handleMouseEnter("p")}}
+                        onMouseLeave={() => {handleMouseLeave("p")}}
+                        style={{backgroundColor: isHoverP ? "#0022AA" : "white", 
+                                borderColor: "#0022AA", 
+                                color: isHoverP ? "white" : "#0022AA"}}>Posterior</button>
+                <div style={{height: 10}}/>
+                </div>
+
+                <div>
+                <button className="btn btn-lg" 
+                        onMouseEnter={() => {handleMouseEnter("a")}}
+                        onMouseLeave={() => {handleMouseLeave("a")}}
+                        onClick={() => {canalCallback("anterior")}}
+                        style={{backgroundColor: isHoverA ? "#EEAA22" : "white", 
+                                borderColor: "#EEAA22", 
+                                color: isHoverA ? "white" : "#EEAA22"}}>Anterior</button>
+                <div style={{height: 10}}/>
+                </div>
+
+                <div>
+                <button className="btn btn-lg" 
+                        onMouseEnter={() => {handleMouseEnter("l")}}
+                        onMouseLeave={() => {handleMouseLeave("l")}}
+                        onClick={() => {canalCallback("lateral")}}
+                        style={{backgroundColor: isHoverL ? "#887766" : "white", 
+                                borderColor: "#887766", 
+                                color: isHoverL ? "white" : "#887766"}}>Lateral</button>
+                <div style={{height: 10}}/>
+                </div>
             </div>
 
-            <div>
-            <button className="btn btn-lg" 
-                    onMouseEnter={() => {handleMouseEnter("a")}}
-                    onMouseLeave={() => {handleMouseLeave("a")}}
-                    onClick={() => {canalCallback("anterior")}}
-                    style={{backgroundColor: isHoverA ? "#EEAA22" : "white", 
-                            borderColor: "#EEAA22", 
-                            color: isHoverA ? "white" : "#EEAA22"}}>Anterior</button>
-            <div style={{height: 10}}/>
-            </div>
+            <div style={{width: 20}}/>
 
-            <div>
-            <button className="btn btn-lg" 
-                    onMouseEnter={() => {handleMouseEnter("l")}}
-                    onMouseLeave={() => {handleMouseLeave("l")}}
-                    onClick={() => {canalCallback("lateral")}}
-                    style={{backgroundColor: isHoverL ? "#887766" : "white", 
-                            borderColor: "#887766", 
-                            color: isHoverL ? "white" : "#887766"}}>Lateral</button>
-            <div style={{height: 10}}/>
-            </div>
+            <div style={{display: "flex", flexDirection: "column", width: "40%", alignItems: "center"}}>
+                <div>
+                <button className="btn btn-lg" 
+                        onMouseEnter={() => {handleMouseEnter("le")}}
+                        onMouseLeave={() => {handleMouseLeave("le")}}
+                        onClick={() => {earCallback("left")}}
+                        style={{backgroundColor: isHoverLE ? "black" : "white", 
+                                borderColor: "black", 
+                                color: isHoverLE ? "white" : "black"}}>Left</button>
+                <div style={{height: 10}}/>
+                </div>
 
-            <div style={{height: 30}}/>
-
-            <div>
-            <button className="btn btn-lg" 
-                    onMouseEnter={() => {handleMouseEnter("le")}}
-                    onMouseLeave={() => {handleMouseLeave("le")}}
-                    onClick={() => {earCallback("left")}}
-                    style={{backgroundColor: isHoverLE ? "black" : "white", 
-                            borderColor: "black", 
-                            color: isHoverLE ? "white" : "black"}}>Left</button>
-            <div style={{height: 10}}/>
+                <div>
+                <button className="btn btn-lg" 
+                        onMouseEnter={() => {handleMouseEnter("re")}}
+                        onMouseLeave={() => {handleMouseLeave("re")}}
+                        onClick={() => {earCallback("right")}}
+                        style={{backgroundColor: isHoverRE ? "black" : "white", 
+                                borderColor: "black", 
+                                color: isHoverRE ? "white" : "black"}}>Right</button>
+                </div>
             </div>
-
-            <div>
-            <button className="btn btn-lg" 
-                    onMouseEnter={() => {handleMouseEnter("re")}}
-                    onMouseLeave={() => {handleMouseLeave("re")}}
-                    onClick={() => {earCallback("right")}}
-                    style={{backgroundColor: isHoverRE ? "black" : "white", 
-                            borderColor: "black", 
-                            color: isHoverRE ? "white" : "black"}}>Right</button>
-            <div style={{height: 10}}/>
-            </div>
+        </div>
+        <div style={{height: 40}}/>
+        {canal && <div style={{fontSize: 20}}>{ear + " " + canal}</div>}
         </div>
     )
 }

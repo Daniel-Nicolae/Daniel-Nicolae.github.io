@@ -10,10 +10,11 @@ import MeshToggler from "./MeshToggler"
 interface Props {
     number: number
     IDs: string[]
+    ear: "left"|"right"
     matrixRef: React.MutableRefObject<Matrix4>
 }
 
-const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
+const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -30,7 +31,7 @@ const IndividualCamera = ({number, IDs, matrixRef}: Props) => {
         createFaceLandmarker(model)
 
         return () => {clearInterval(loop)}
-    })
+    }, [ear])
 
 
     // model inference 
