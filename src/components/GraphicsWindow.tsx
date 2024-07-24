@@ -18,7 +18,7 @@ const GraphicsWindow = ({ear, matrixRef}: Props) => {
                         canal="posterior" 
                         ear={ear}
                         matrixRef={matrixRef}/>
-                    <div style={{width: 30}}/>
+                    <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="anterior" 
                         ear={ear}
@@ -32,7 +32,7 @@ const GraphicsWindow = ({ear, matrixRef}: Props) => {
                         canal="lateral" 
                         ear={ear}
                         matrixRef={matrixRef}/>
-                    <div style={{width: 30}}/>
+                    <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="all" 
                         ear={ear}
