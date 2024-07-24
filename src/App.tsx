@@ -22,13 +22,13 @@ function App() {
 
             <div style={{width: "1%"}}/>
 
-            <div style={{width: "26%"}}>
+            <div style={{width: "25%"}}>
                 <CameraWindow 
                     ear={affectedEar}
                     matrixRef={matrixRef}/>
             </div>
 
-            <div style={{width: "46%"}}>
+            <div style={{width: "45%"}}>
                 <GraphicsWindow 
                     ear={affectedEar}
                     matrixRef={matrixRef}/>
@@ -40,7 +40,7 @@ function App() {
                     canal={affectedCanal}
                     earCallback={setAffectedEar}
                     canalCallback={setAffectedCanal}/>
-                <div style={{height: 100}}/>
+                <div style={{height: 90}}/>
                 <AlignmentWindow/>
 
             </div>

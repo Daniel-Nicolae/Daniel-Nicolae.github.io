@@ -104,7 +104,7 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
             </div>
         </div>
         <div style={{height: 40}}/>
-        {canal && <div style={{fontSize: 20}}>{ear + " " + canal}</div>}
+        {canal && <div style={{fontSize: 24}}>{"Affected:  " + ear + " " + canal}</div>}
         </div>
     )
 }
