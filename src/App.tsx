@@ -9,10 +9,13 @@ import AlignmentWindow from './components/AlignmentWindow';
 function App() {
 
     const [affectedEar, setAffectedEar] = useState<"left"|"right">("right")
-    // const affectedEar = useRef<"left"|"right">("right")
-    // const setAffectedEar = (newEar: "left"|"right") => {affectedEar.current = newEar}
 
     const [affectedCanal, setAffectedCanal] = useState<"posterior"|"anterior"|"lateral"|"">("")
+    const handleCanalChange = (newCanal: "posterior"|"anterior"|"lateral") => {
+        if (affectedCanal !== newCanal) setAffectedCanal(newCanal)
+        else setAffectedCanal("")
+    }
+
     const matrixRef =  useRef<Matrix4>(new Matrix4())
 
     return (
@@ -31,6 +34,7 @@ function App() {
             <div style={{width: "45%"}}>
                 <GraphicsWindow 
                     ear={affectedEar}
+                    affectedCanal={affectedCanal}
                     matrixRef={matrixRef}/>
             </div>
 
@@ -39,7 +43,7 @@ function App() {
                     ear={affectedEar}
                     canal={affectedCanal}
                     earCallback={setAffectedEar}
-                    canalCallback={setAffectedCanal}/>
+                    canalCallback={handleCanalChange}/>
                 <div style={{height: 90}}/>
                 <AlignmentWindow/>
 

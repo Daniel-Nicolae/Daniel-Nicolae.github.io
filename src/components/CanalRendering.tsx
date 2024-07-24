@@ -7,10 +7,11 @@ import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR } from "../util
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
     ear: "left" | "right"
+    affectedCanal: "posterior"|"anterior"|"lateral"|""
     matrixRef: React.MutableRefObject<THREE.Matrix4>
 }
 
-const CanalRendering = ({canal, ear, matrixRef}: Props) => {
+const CanalRendering = ({canal, ear, affectedCanal, matrixRef}: Props) => {
 
 
     const [active, setActive] = useState(true)
@@ -30,6 +31,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
     const coloursAll = [BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, 0x333333, 0x333333]
 
     useEffect(() => {
+        const affected = affectedCanal === canal
 
         // Renderer initialisation
         const canvas = document.getElementById("canalCanvas" + canal) as HTMLCanvasElement
@@ -43,7 +45,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera(15, 1)
+        camera.current = new THREE.PerspectiveCamera(affected ? 15 : 30, 1)
         camera.current.position.set(0, 0, canal === "all" ? 70 : 39) 
         camera.current.lookAt(0, 0, 0)
 
@@ -101,7 +103,7 @@ const CanalRendering = ({canal, ear, matrixRef}: Props) => {
             meshParts.current = [] // flush any previous loadings
         }
 
-    }, [ear, active, matrixRef])
+    }, [ear, affectedCanal, active, matrixRef])
 
 
     return (

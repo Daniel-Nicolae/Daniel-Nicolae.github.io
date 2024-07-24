@@ -3,11 +3,12 @@ import CanalRendering from "./CanalRendering"
 
 interface Props {
     ear: "left" | "right"
+    affectedCanal: "posterior"|"anterior"|"lateral"|""
     matrixRef: React.MutableRefObject<Matrix4>
 }
 
 
-const GraphicsWindow = ({ear, matrixRef}: Props) => {
+const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
 
     return (
         <>
@@ -17,11 +18,13 @@ const GraphicsWindow = ({ear, matrixRef}: Props) => {
                     <CanalRendering 
                         canal="posterior" 
                         ear={ear}
+                        affectedCanal={affectedCanal}
                         matrixRef={matrixRef}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="anterior" 
                         ear={ear}
+                        affectedCanal={affectedCanal}
                         matrixRef={matrixRef}/>
                 </div>
 
@@ -31,11 +34,13 @@ const GraphicsWindow = ({ear, matrixRef}: Props) => {
                     <CanalRendering 
                         canal="lateral" 
                         ear={ear}
+                        affectedCanal={affectedCanal}
                         matrixRef={matrixRef}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="all" 
                         ear={ear}
+                        affectedCanal={affectedCanal}
                         matrixRef={matrixRef}/>
                 </div>
 
