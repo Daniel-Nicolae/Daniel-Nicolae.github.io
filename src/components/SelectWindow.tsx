@@ -13,23 +13,31 @@ const SelectWindow = ({ear, earCallback, canal, canalCallback}: Props) => {
     const [isHoverP, setIsHoverP] = useState(false)
     const [isHoverA, setIsHoverA] = useState(false)
     const [isHoverL, setIsHoverL] = useState(false)
+    const [isHoverLE, setIsHoverLE] = useState(false)
+    const [isHoverRE, setIsHoverRE] = useState(false)
 
-    const handleMouseEnter = (c: "p"|"a"|"l") => {
+    const handleMouseEnter = (c: "p"|"a"|"l"|"le"|"re") => {
         if (c === "p") setIsHoverP(true)
         if (c === "a") setIsHoverA(true)
         if (c === "l") setIsHoverL(true)
+        if (c === "le") setIsHoverLE(true)
+        if (c === "re") setIsHoverRE(true)
     }
 
-    const handleMouseLeave = (c: "p"|"a"|"l") => {
+    const handleMouseLeave = (c: "p"|"a"|"l"|"le"|"re") => {
         if (c === "p") setIsHoverP(false)
         if (c === "a") setIsHoverA(false)
         if (c === "l") setIsHoverL(false)
+        if (c === "le") setIsHoverLE(false)
+        if (c === "re") setIsHoverRE(false)
     }
 
 
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{height: 40}}/>
+
+            <div style={{fontSize: 24}}>Please select the affected canal</div>
 
             <div>
             <button className="btn btn-lg"
@@ -59,9 +67,33 @@ const SelectWindow = ({ear, earCallback, canal, canalCallback}: Props) => {
                     onMouseLeave={() => {handleMouseLeave("l")}}
                     onClick={() => {canalCallback("lateral")}}
                     style={{backgroundColor: isHoverL ? "#887766" : "white", 
-                            borderWidth: 1,
                             borderColor: "#887766", 
                             color: isHoverL ? "white" : "#887766"}}>Lateral</button>
+            <div style={{height: 10}}/>
+            </div>
+
+            <div style={{height: 30}}/>
+
+            <div>
+            <button className="btn btn-lg" 
+                    onMouseEnter={() => {handleMouseEnter("le")}}
+                    onMouseLeave={() => {handleMouseLeave("le")}}
+                    onClick={() => {earCallback("left")}}
+                    style={{backgroundColor: isHoverLE ? "black" : "white", 
+                            borderColor: "black", 
+                            color: isHoverLE ? "white" : "black"}}>Left</button>
+            <div style={{height: 10}}/>
+            </div>
+
+            <div>
+            <button className="btn btn-lg" 
+                    onMouseEnter={() => {handleMouseEnter("re")}}
+                    onMouseLeave={() => {handleMouseLeave("re")}}
+                    onClick={() => {earCallback("right")}}
+                    style={{backgroundColor: isHoverRE ? "black" : "white", 
+                            borderColor: "black", 
+                            color: isHoverRE ? "white" : "black"}}>Right</button>
+            <div style={{height: 10}}/>
             </div>
         </div>
     )
