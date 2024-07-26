@@ -18,13 +18,14 @@ const getReferenceFrame = ([A, B, C]: Vector3[]) => {
     return [x, y, z]
 }
 
-const getRotationMatrix = (usefulLandmarks: Vector3[], IDi: number) => {
+const getRotationMatrix = (usefulLandmarks: Vector3[], number: number) => {
 
+    for (let i=0; i<3; i++) usefulLandmarks[i].applyMatrix4(cameraMatrices[number-1])
     const [x, y, z] = getReferenceFrame(usefulLandmarks)
     const M = new Matrix4()
     M.makeBasis(x, y, z)
 
-    M.multiply(cameraMatrices[IDi])
+    // if (number === 1) console.log(cameraMatrices[number])
     
     return M
 }

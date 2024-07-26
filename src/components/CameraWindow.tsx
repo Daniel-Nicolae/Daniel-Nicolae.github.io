@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import IndividualCamera from "./IndividualCamera"
-import computeAverageLandmarks from "../utils/averageLandmarks"
+import computeCurrentLandmarks from "../utils/currentLandmarks"
 import { Matrix4 } from "three"
 
 
@@ -23,7 +23,7 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
-        let loop = setInterval(() => {computeAverageLandmarks(cameraMatrixRefs, matrixRef)}, 30)
+        let loop = setInterval(() => {computeCurrentLandmarks(cameraMatrixRefs, matrixRef)}, 30)
 
         return () => {
             clearInterval(loop)

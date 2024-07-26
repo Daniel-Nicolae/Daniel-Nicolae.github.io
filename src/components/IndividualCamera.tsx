@@ -20,6 +20,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
     const [IDi, setIDi] = useState(number-1)
     const handleToggle = () => {
         setIDi((IDi + 1) % IDs.length)
+        clearInterval(loop)
     }
 
     // facemesh drawing
@@ -31,7 +32,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
         createFaceLandmarker(model)
 
         return () => {clearInterval(loop)}
-    }, [ear])
+    }, [ear, IDi])
 
 
     // model inference 
@@ -69,7 +70,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
 
                         // -y and -z to convert from y positive downwards (model) to upwards (rendering)
                     const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, -item.y, -item.z))
-                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]], IDi)
+                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]], number)
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)

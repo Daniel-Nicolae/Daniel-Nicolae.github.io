@@ -1,6 +1,6 @@
 import { Matrix4 } from "three";
 
-const computeAverageLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix4>[],
+const computeCurrentLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix4>[],
                                  matrixRef: React.MutableRefObject<Matrix4>) => {
 
     // let s: number
@@ -14,4 +14,4 @@ const computeAverageLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix
 }
 
 
-export default computeAverageLandmarks
+export default computeCurrentLandmarks
