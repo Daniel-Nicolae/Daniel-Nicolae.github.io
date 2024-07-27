@@ -1,7 +1,8 @@
 import { Matrix4 } from "three";
 
 const computeCurrentLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix4>[],
-                                 matrixRef: React.MutableRefObject<Matrix4>) => {
+                                 matrixRef: React.MutableRefObject<Matrix4>,
+                                 activeCameraNumberRef: React.MutableRefObject<number>) => {
 
     // let s: number
     // for (let i=0; i<3; i++) {
@@ -10,7 +11,7 @@ const computeCurrentLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix
     //     console.log(i, s)
     // }
     // console.log("##################")
-    matrixRef.current = cameraMatrixRefs[0].current
+    matrixRef.current = cameraMatrixRefs[activeCameraNumberRef.current].current
 }
 
 

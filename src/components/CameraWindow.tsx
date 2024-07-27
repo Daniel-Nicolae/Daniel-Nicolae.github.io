@@ -13,6 +13,7 @@ interface Props {
 const CameraWindow = ({ear, matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
+    const activeCameraNumberRef = useRef(0)
 
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
-        let loop = setInterval(() => {computeCurrentLandmarks(cameraMatrixRefs, matrixRef)}, 30)
+        let loop = setInterval(() => {computeCurrentLandmarks(cameraMatrixRefs, matrixRef, activeCameraNumberRef)}, 30)
 
         return () => {
             clearInterval(loop)
@@ -43,6 +44,7 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     IDs={cameraIDs}
                     ear={ear}
                     matrixRef={cameraMatrixRefs[0]}
+                    activeCameraNumberRef={activeCameraNumberRef}
                 />
 
             <IndividualCamera
@@ -50,6 +52,7 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     IDs={cameraIDs}
                     ear={ear}
                     matrixRef={cameraMatrixRefs[1]}
+                    activeCameraNumberRef={activeCameraNumberRef}
                 />
 
             <IndividualCamera
@@ -57,6 +60,7 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     IDs={cameraIDs}
                     ear={ear}
                     matrixRef={cameraMatrixRefs[2]}
+                    activeCameraNumberRef={activeCameraNumberRef}
                 />
 
         </div>

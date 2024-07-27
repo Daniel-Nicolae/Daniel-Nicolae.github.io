@@ -45,7 +45,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef}: Props) => {
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera(affected ? 15 : 30, 1)
+        camera.current = new THREE.PerspectiveCamera((affected || canal === "all") ? 15 : 30, 1)
         camera.current.position.set(0, 0, canal === "all" ? 70 : 39) 
         camera.current.lookAt(0, 0, 0)
 

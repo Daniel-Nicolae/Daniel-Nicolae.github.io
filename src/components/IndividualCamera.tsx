@@ -5,23 +5,27 @@ import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 import { Matrix4, Vector3 } from "three"
 import getRotationMatrix from "../utils/getRotationMatrix"
-import MeshToggler from "./MeshToggler"
+import Toggler from "./Toggler"
 
 interface Props {
     number: number
     IDs: string[]
     ear: "left"|"right"
     matrixRef: React.MutableRefObject<Matrix4>
+    activeCameraNumberRef: React.MutableRefObject<number>
 }
 
-const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
+const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
     const handleToggle = () => {
-        setIDi((IDi + 1) % IDs.length)
         clearInterval(loop)
+        setIDi((IDi + 1) % IDs.length)
     }
+
+    // clinical position
+    const isClinical = useRef(true)
 
     // facemesh drawing
     const drawMesh = useRef(false)
@@ -32,7 +36,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
         createFaceLandmarker(model)
 
         return () => {clearInterval(loop)}
-    }, [ear, IDi])
+    }, [])
 
 
     // model inference 
@@ -53,6 +57,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
         let lastVideoTime = -1
         loop = setInterval(renderLoop, 30)
         function renderLoop() {
+
             
             let startTimeMs = performance.now()
             if (video.currentTime !== lastVideoTime) {
@@ -70,7 +75,8 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
 
                         // -y and -z to convert from y positive downwards (model) to upwards (rendering)
                     const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, -item.y, -item.z))
-                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]], number)
+                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]],
+                                                             number, isClinical)
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
@@ -103,7 +109,11 @@ const IndividualCamera = ({number, IDs, ear, matrixRef}: Props) => {
                 <div style={{height: 15}}/>
                 <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
                 <div style={{height: 20}}/>
-                <MeshToggler number={number} drawMeshRef={drawMesh}/>
+                <Toggler boolRef={drawMesh} label="Face mesh"/>
+                <div style={{height: 10}}/>
+                <button className="btn btn-outline-dark" onClick={() => {activeCameraNumberRef.current = number-1}}> Activate </button>
+                <div style={{height: 10}}/>
+                <Toggler boolRef={isClinical} label="In clinic"/>
             </div> 
 
             <div style={{width: 25}}/>
