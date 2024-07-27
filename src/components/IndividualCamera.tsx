@@ -51,46 +51,41 @@ const IndividualCamera = ({number, IDs, landmarksRef, activeCameraNumberRef, isC
         const canvasCtx = canvasElement.getContext("2d")!
         const drawingUtils = new DrawingUtils(canvasCtx)
 
-        let lastVideoTime = -1
         loop = setInterval(renderLoop, 30)
         function renderLoop() {
 
-            if (video.currentTime !== lastVideoTime) {
+            // inference
+            const faceLandmarkerResult = model.current.detectForVideo(video, performance.now())
+            
 
-                // inference
-                lastVideoTime = video.currentTime
-                const faceLandmarkerResult = model.current.detectForVideo(video, performance.now())
-                
+            // drawing
+            if (faceLandmarkerResult.faceLandmarks[0]) {
 
-                // drawing
-                if (faceLandmarkerResult.faceLandmarks[0]) {
+                // extract useful landmarks only and save in ref
+                const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
 
-                    // extract useful landmarks only and save in ref
-                    const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
+                    // -y and -z to convert from y positive downwards (model) to upwards (rendering)
+                landmarksRef.current = usefulLandmarks.map((item) => {
+                    const landmarkVec = new Vector3(item.x, -item.y, -item.z)
+                    if (isClinicalRef.current) landmarkVec.applyMatrix4(cameraMatrices[number-1])
+                    return landmarkVec
+                })
 
-                        // -y and -z to convert from y positive downwards (model) to upwards (rendering)
-                    landmarksRef.current = usefulLandmarks.map((item) => {
-                        const landmarkVec = new Vector3(item.x, -item.y, -item.z)
-                        if (isClinicalRef.current) landmarkVec.applyMatrix4(cameraMatrices[number-1])
-                        return landmarkVec
-                    })
+                // draw face mesh
+                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
+                if (drawMesh.current) drawingUtils.drawConnectors(
+                                        faceLandmarkerResult.faceLandmarks[0],
+                                        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
+                                        { color: "#000000", lineWidth: 0.6 })
 
-                    // draw face mesh
-                    canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
-                    if (drawMesh.current) drawingUtils.drawConnectors(
-                                            faceLandmarkerResult.faceLandmarks[0],
-                                            FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                                            { color: "#000000", lineWidth: 0.6 })
-
-                    // draw useful landmarks
-                    drawingUtils.drawLandmarks(usefulLandmarks,
-                                            {radius: 4, lineWidth: 2, 
-                                            fillColor: "#FFFFFF", color: "#0022AA"})
-                }
-                else {
-                    landmarksRef.current = []
-                    canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
-                }
+                // draw useful landmarks
+                drawingUtils.drawLandmarks(usefulLandmarks,
+                                        {radius: 4, lineWidth: 2, 
+                                        fillColor: "#FFFFFF", color: "#0022AA"})
+            }
+            else {
+                landmarksRef.current = []
+                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
             }
         }
     }
