@@ -4,7 +4,7 @@ import CameraWindow from "./components/CameraWindow"
 import GraphicsWindow from './components/GraphicsWindow';
 import { Matrix4 } from 'three';
 import SelectWindow from './components/SelectWindow';
-import AlignmentWindow from './components/AlignmentWindow';
+import AlignmentDisplay from './components/AlignmentDisplay';
 
 function App() {
 
@@ -14,7 +14,15 @@ function App() {
     const handleCanalChange = (newCanal: "posterior"|"anterior"|"lateral") => {
         if (affectedCanal !== newCanal) setAffectedCanal(newCanal)
         else setAffectedCanal("")
+        setStage(1)
     }
+
+    const [stage, setStage] = useState(1)
+    const handleStageAdvance = () => {
+        setStage(stage % 3 + 1)
+    }
+
+    const alignmentRef = useRef(0)
 
     const matrixRef =  useRef<Matrix4>(new Matrix4())
 
@@ -27,7 +35,6 @@ function App() {
 
             <div style={{width: "25%"}}>
                 <CameraWindow 
-                    ear={affectedEar}
                     matrixRef={matrixRef}/>
             </div>
 
@@ -35,7 +42,9 @@ function App() {
                     <GraphicsWindow 
                         ear={affectedEar}
                         affectedCanal={affectedCanal}
-                        matrixRef={matrixRef}/>
+                        matrixRef={matrixRef}
+                        stage={stage}
+                        alignmentRef={alignmentRef}/>
                 </div>
 
             <div style={{display: "flex", flexDirection: "column", width: "25%"}}>
@@ -45,7 +54,12 @@ function App() {
                     earCallback={setAffectedEar}
                     canalCallback={handleCanalChange}/>
                 <div style={{height: 90}}/>
-                <AlignmentWindow/>
+                <AlignmentDisplay
+                    stage={stage}
+                    canal={affectedCanal}
+                    stageCallback={handleStageAdvance}
+                    alignmentRef={alignmentRef}
+                    />
 
             </div>
         </div>
