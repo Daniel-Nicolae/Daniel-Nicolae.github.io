@@ -14,3 +14,6 @@ export const BROWN_COLOUR = 0xaa9988
 export const BACKGR_COLOUR = 0xeeeeee
 export const RED_COLOUR = 0xAA1122
 export const GREEN_COLOUR = 0x44DD22
+
+export const HIGH_THRESHOLD = 0.8
+export const LOW_THRESHOLD = 0.7

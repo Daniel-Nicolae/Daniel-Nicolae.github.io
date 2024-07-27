@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { getAlignment, meshPartsLength } from "../utils/alignment";
-import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR } from "../utils/config";
+import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR, HIGH_THRESHOLD } from "../utils/config";
 
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
@@ -11,13 +11,14 @@ interface Props {
     matrixRef: React.MutableRefObject<THREE.Matrix4>
     stage: number
     alignmentRef: React.MutableRefObject<number> | null
+    alignedRef: React.MutableRefObject<boolean>
 }
 
 function capitalize(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentRef}: Props) => {
+const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentRef, alignedRef}: Props) => {
 
 
     const [active, setActive] = useState(true)
@@ -86,7 +87,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                 }
 
                 const material = new THREE.MeshStandardMaterial({color: color, side: THREE.DoubleSide, flatShading: true})
-                const loadedMesh = new THREE.Mesh(geometry, material);
+                const loadedMesh = new THREE.Mesh(geometry, material)
 
                 if ((ear === "left"))
                     loadedMesh.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1))
@@ -104,7 +105,18 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                     mesh.applyMatrix4(matrixRef.current)
                 }
 
-                if (affected) alignmentRef!.current = getAlignment(canal, stage, meshParts.current[stage])
+                if (affected) {
+                    alignmentRef!.current = getAlignment(canal, stage, meshParts.current[stage])
+                    if (alignedRef.current) {
+                        const material = new THREE.MeshStandardMaterial({color: GREEN_COLOUR, side: THREE.DoubleSide, flatShading: true})
+                        meshParts.current[stage].material = material
+                    } 
+                    else {
+                        const material = new THREE.MeshStandardMaterial({color: RED_COLOUR, side: THREE.DoubleSide, flatShading: true})
+                        meshParts.current[stage].material = material
+                    }
+                }
+
 
                 renderer.current!.render(scene.current!, camera.current!)
             }

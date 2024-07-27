@@ -1,21 +1,19 @@
 import { useEffect, useRef, useState } from "react"
-import { meshPartsLength } from "../utils/alignment"
 import useSound from "use-sound"
+import { HIGH_THRESHOLD, LOW_THRESHOLD } from "../utils/config"
 
 interface Props {
     stage: number
-    canal: string
-    stageCallback: (stage: number) => void
+    stageCallback: () => void
     alignmentRef: React.MutableRefObject<number>
+    alignedRef: React.MutableRefObject<boolean>
 }
 
 const GREEN = "#44DD22"
 const BLACK = "#000000"
-const HIGH_THRESHOLD = 0.7
-const LOW_THRESHOLD = 0.4
 const DURATION = 5.0
 
-const AlignmentDisplay = ({stage, canal, stageCallback, alignmentRef}: Props) => {
+const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Props) => {
     const [displayAlignment, setDisplayAligment] = useState(0.0)
     const [color, setColor] = useState(BLACK)
     const [displayTimer, setDisplayTimer] = useState(-1.0)
@@ -29,34 +27,36 @@ const AlignmentDisplay = ({stage, canal, stageCallback, alignmentRef}: Props) =>
         if (loop.current) clearInterval(loop.current)
         let timer = -1.0
         setColor(BLACK)
-        if ((stage !== meshPartsLength[canal] - 1 && stage !== 0) || canal === "lateral")
-            loop.current = setInterval(() => {
-                const alignment = alignmentRef.current
-                setDisplayAligment(alignment)
+        alignedRef.current = false
+        loop.current = setInterval(() => {
+            const alignment = alignmentRef.current
+            setDisplayAligment(alignment)
 
-                if (alignment > HIGH_THRESHOLD && timer === -1.0) {
-                    setColor(GREEN)
-                    playAligned()
-                    timer = 0.0
-                }
+            if (alignment > HIGH_THRESHOLD && timer === -1.0) {
+                setColor(GREEN)
+                alignedRef.current = true
+                playAligned()
+                timer = 0.0
+            }
 
-                if (alignment > LOW_THRESHOLD && timer !== -1.0) {
-                    timer += 0.15
-                    setDisplayTimer(timer)
-                    if (timer > DURATION) {
-                        stageCallback((stage + 1) % meshPartsLength[canal]) 
-                        timer = -1.0
-                        setDisplayTimer(timer)
-                        playStageDone()
-                    }
-                }
-                if (alignment < LOW_THRESHOLD && timer !== -1.0) {
+            if (alignment > LOW_THRESHOLD && timer !== -1.0) {
+                timer += 0.15
+                setDisplayTimer(timer)
+                if (timer > DURATION) {
+                    stageCallback() 
                     timer = -1.0
                     setDisplayTimer(timer)
-                    setColor(BLACK)
-                    playNotAligned()
+                    playStageDone()
                 }
-            }, 150)
+            }
+            if (alignment < LOW_THRESHOLD && timer !== -1.0) {
+                timer = -1.0
+                setDisplayTimer(timer)
+                setColor(BLACK)
+                alignedRef.current = false
+                playNotAligned()
+            }
+        }, 150)
     }, [stage])
 
     return (

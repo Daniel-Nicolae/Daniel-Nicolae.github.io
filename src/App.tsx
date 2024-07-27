@@ -23,6 +23,7 @@ function App() {
     }
 
     const alignmentRef = useRef(0)
+    const alignedRef = useRef(false)
 
     const matrixRef =  useRef<Matrix4>(new Matrix4())
 
@@ -44,7 +45,8 @@ function App() {
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
                         stage={stage}
-                        alignmentRef={alignmentRef}/>
+                        alignmentRef={alignmentRef}
+                        alignedRef={alignedRef}/>
                 </div>
 
             <div style={{display: "flex", flexDirection: "column", width: "25%"}}>
@@ -57,9 +59,9 @@ function App() {
                 {affectedCanal && 
                 <AlignmentDisplay
                     stage={stage}
-                    canal={affectedCanal}
                     stageCallback={handleStageAdvance}
                     alignmentRef={alignmentRef}
+                    alignedRef={alignedRef}
                     />}
 
             </div>

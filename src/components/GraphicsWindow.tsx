@@ -8,10 +8,11 @@ interface Props {
     matrixRef: React.MutableRefObject<Matrix4>,
     stage: number,
     alignmentRef: React.MutableRefObject<number>
+    alignedRef: React.MutableRefObject<boolean>
 }
 
 
-const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef}: Props) => {
+const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef, alignedRef}: Props) => {
 
     return (
         <>
@@ -24,7 +25,8 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef}: Pr
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
                         stage={stage}
-                        alignmentRef={alignmentRef}/>
+                        alignmentRef={alignmentRef}
+                        alignedRef={alignedRef}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="anterior" 
@@ -32,7 +34,8 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef}: Pr
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
                         stage={stage}
-                        alignmentRef={alignmentRef}/>
+                        alignmentRef={alignmentRef}
+                        alignedRef={alignedRef}/>
                 </div>
 
                 <div style={{height: 5}}/>
@@ -44,15 +47,19 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef}: Pr
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
                         stage={stage}
-                        alignmentRef={alignmentRef}/>
+                        alignmentRef={alignmentRef}
+                        alignedRef={alignedRef}/>
+
                     <div style={{width: 40}}/>
+
                     <CanalRendering 
                         canal="all" 
                         ear={ear}
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
                         stage={0}
-                        alignmentRef={null}/>
+                        alignmentRef={null}
+                        alignedRef={alignedRef}/>
                 </div>
 
             </div>
