@@ -83,7 +83,7 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                                         fillColor: "#FFFFFF", color: "#0022AA"})
             }
             else {
-                landmarksRef.current = []
+                landmarksRef.current = [new Vector3(), new Vector3(), new Vector3()]
                 canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
             }
         }

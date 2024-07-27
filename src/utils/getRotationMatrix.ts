@@ -20,15 +20,17 @@ renderCameraMatrix.set(-1, 0, 0, 0,
                         0, 0, -1, 0,
                         0, 0, 0, 1)
 
-const getRotationMatrix = (landmarksRef: React.MutableRefObject<Vector3[]>, isClinicalRef: React.MutableRefObject<boolean>) => {
+const getRotationMatrix = (landmarks: Vector3[], isClinicalRef: React.MutableRefObject<boolean>) => {
 
-    const [x, y, z] = getReferenceFrame(landmarksRef.current)
     const M = new Matrix4()
+
+    const [x, y, z] = getReferenceFrame(landmarks)
     M.makeBasis(x, y, z)
 
     if (isClinicalRef.current) M.premultiply(renderCameraMatrix)
     
-    return M
+    if (isNaN(M.determinant())) return new Matrix4()
+    else return M
 }
 
 export default getRotationMatrix

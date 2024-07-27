@@ -6,20 +6,19 @@ import getRotationMatrix from "../utils/getRotationMatrix"
 
 
 interface Props {
-    ear: "left"|"right"
     matrixRef: React.MutableRefObject<Matrix4>
 }
 
 
-const CameraWindow = ({ear, matrixRef}: Props) => {
+const CameraWindow = ({matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
 
     const isClinicalRef = useRef(true)
     const landmarksRef = useRef<Vector3[]>([])
-    const cameraLandmarksRefs = [useRef<Vector3[]>([]),
-                                 useRef<Vector3[]>([]),
-                                 useRef<Vector3[]>([])]
+    const cameraLandmarksRefs = [useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()]),
+                                 useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()]),
+                                 useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()])]
 
     const [lost, setLost] = useState(false)
 
@@ -33,8 +32,10 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
         getDevices()
         let loop = setInterval(() => {
             computeCurrentLandmarks(cameraLandmarksRefs, landmarksRef)
-            if (landmarksRef.current.length) 
-                matrixRef.current = getRotationMatrix(landmarksRef, isClinicalRef)
+            if (landmarksRef.current.length > 0) {
+                matrixRef.current = getRotationMatrix(landmarksRef.current, isClinicalRef)
+            }
+                
         }, 30)
 
         return () => {

@@ -1,5 +1,6 @@
 import { Vector3 } from "three";
 
+const zeroVector = new Vector3()
 const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vector3[]>[],
                                  landmarksRef: React.MutableRefObject<Vector3[]>) => {
 
@@ -9,7 +10,7 @@ const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vec
     let atLeastOne = false
 
     for (let i=0; i<3; i++) {
-        if (cameraLandmarksRefs[i].current.length) {
+        if (cameraLandmarksRefs[i].current[0].distanceTo(zeroVector) > 0.001) {
             atLeastOne = true
             const Ai = cameraLandmarksRefs[i].current[2]
             const Bi = cameraLandmarksRefs[i].current[4]
