@@ -58,13 +58,11 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
         loop = setInterval(renderLoop, 30)
         function renderLoop() {
 
-            
-            let startTimeMs = performance.now()
             if (video.currentTime !== lastVideoTime) {
 
                 // inference
                 lastVideoTime = video.currentTime
-                const faceLandmarkerResult = model.current.detectForVideo(video, startTimeMs)
+                const faceLandmarkerResult = model.current.detectForVideo(video, performance.now())
                 
 
                 // drawing
