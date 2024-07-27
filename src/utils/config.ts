@@ -12,3 +12,5 @@ export const ORANGE_COLOUR = 0xffbb33
 export const BLUE_COLOUR = 0x0022aa
 export const BROWN_COLOUR = 0xaa9988
 export const BACKGR_COLOUR = 0xeeeeee
+export const RED_COLOUR = 0xAA1122
+export const GREEN_COLOUR = 0x44DD22
