@@ -11,11 +11,10 @@ interface Props {
     number: number
     IDs: string[]
     landmarksRef: React.MutableRefObject<Vector3[]>
-    activeCameraNumberRef: React.MutableRefObject<number>
     isClinicalRef: React.MutableRefObject<boolean>
 }
 
-const IndividualCamera = ({number, IDs, landmarksRef, activeCameraNumberRef, isClinicalRef}: Props) => {
+const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -108,8 +107,6 @@ const IndividualCamera = ({number, IDs, landmarksRef, activeCameraNumberRef, isC
                 <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
                 <div style={{height: 20}}/>
                 <Toggler boolRef={drawMesh} label="Face mesh"/>
-                <div style={{height: 10}}/>
-                <button className="btn btn-outline-dark" onClick={() => {activeCameraNumberRef.current = number-1}}> Activate </button>
             </div> 
 
             <div style={{width: 25}}/>

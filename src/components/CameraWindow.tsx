@@ -14,7 +14,6 @@ interface Props {
 const CameraWindow = ({ear, matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
-    const activeCameraNumberRef = useRef(0)
 
     const isClinicalRef = useRef(true)
     const landmarksRef = useRef<Vector3[]>([])
@@ -52,7 +51,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     number={1}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[0]}
-                    activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
                 />
 
@@ -60,7 +58,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     number={2}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[1]}
-                    activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
                 />
 
@@ -68,7 +65,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     number={3}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[2]}
-                    activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
                 />
 
