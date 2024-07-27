@@ -16,4 +16,4 @@ rightCameraMatrix.set(0, 0, -1, 0,
                       0, -1, 0, 0, 
                       0, 0, 0, 1)
 
-export const cameraMatrices = [topCameraMatrix, topCameraMatrix, rightCameraMatrix]
+export const cameraMatrices = [leftCameraMatrix, topCameraMatrix, rightCameraMatrix]
