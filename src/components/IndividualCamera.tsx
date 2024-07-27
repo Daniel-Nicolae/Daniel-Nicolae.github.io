@@ -3,21 +3,19 @@ import Webcam from "react-webcam"
 import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
-import { Matrix4, Vector3 } from "three"
-import getRotationMatrix from "../utils/getRotationMatrix"
+import { Vector3 } from "three"
 import Toggler from "./Toggler"
 import { cameraMatrices } from "../utils/cameraPositions"
 
 interface Props {
     number: number
     IDs: string[]
-    ear: "left"|"right"
     landmarksRef: React.MutableRefObject<Vector3[]>
     activeCameraNumberRef: React.MutableRefObject<number>
     isClinicalRef: React.MutableRefObject<boolean>
 }
 
-const IndividualCamera = ({number, IDs, ear, landmarksRef, activeCameraNumberRef, isClinicalRef}: Props) => {
+const IndividualCamera = ({number, IDs, landmarksRef, activeCameraNumberRef, isClinicalRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -76,9 +74,6 @@ const IndividualCamera = ({number, IDs, ear, landmarksRef, activeCameraNumberRef
                         if (isClinicalRef.current) landmarkVec.applyMatrix4(cameraMatrices[number-1])
                         return landmarkVec
                     })
-
-                    // matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]],
-                    //                                          number, isClinical)
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)

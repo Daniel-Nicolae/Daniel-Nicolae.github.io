@@ -51,7 +51,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             <IndividualCamera
                     number={1}
                     IDs={cameraIDs}
-                    ear={ear}
                     landmarksRef={cameraLandmarksRefs[0]}
                     activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
@@ -60,7 +59,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             <IndividualCamera
                     number={2}
                     IDs={cameraIDs}
-                    ear={ear}
                     landmarksRef={cameraLandmarksRefs[1]}
                     activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
@@ -69,7 +67,6 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             <IndividualCamera
                     number={3}
                     IDs={cameraIDs}
-                    ear={ear}
                     landmarksRef={cameraLandmarksRefs[2]}
                     activeCameraNumberRef={activeCameraNumberRef}
                     isClinicalRef={isClinicalRef}
