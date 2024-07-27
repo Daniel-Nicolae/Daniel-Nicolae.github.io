@@ -1,5 +1,6 @@
 import { Matrix4 } from "three"
 import CanalRendering from "./CanalRendering"
+import { useState } from "react"
 
 interface Props {
     ear: "left" | "right"
@@ -10,6 +11,8 @@ interface Props {
 
 const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
 
+    const [stage, setStage] = useState(1)
+
     return (
         <>
             <div style={{display: "flex", flexDirection: "column"}}>
@@ -19,13 +22,15 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
                         canal="posterior" 
                         ear={ear}
                         affectedCanal={affectedCanal}
-                        matrixRef={matrixRef}/>
+                        matrixRef={matrixRef}
+                        stage={stage}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="anterior" 
                         ear={ear}
                         affectedCanal={affectedCanal}
-                        matrixRef={matrixRef}/>
+                        matrixRef={matrixRef}
+                        stage={stage}/>
                 </div>
 
                 <div style={{height: 5}}/>
@@ -35,13 +40,15 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
                         canal="lateral" 
                         ear={ear}
                         affectedCanal={affectedCanal}
-                        matrixRef={matrixRef}/>
+                        matrixRef={matrixRef}
+                        stage={stage}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="all" 
                         ear={ear}
                         affectedCanal={affectedCanal}
-                        matrixRef={matrixRef}/>
+                        matrixRef={matrixRef}
+                        stage={0}/>
                 </div>
 
             </div>

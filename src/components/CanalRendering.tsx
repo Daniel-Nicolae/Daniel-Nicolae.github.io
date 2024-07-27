@@ -2,16 +2,17 @@ import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { meshPartsLength } from "../utils/alignment";
-import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR } from "../utils/config";
+import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR } from "../utils/config";
 
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
     ear: "left" | "right"
     affectedCanal: "posterior"|"anterior"|"lateral"|""
     matrixRef: React.MutableRefObject<THREE.Matrix4>
+    stage: number
 }
 
-const CanalRendering = ({canal, ear, affectedCanal, matrixRef}: Props) => {
+const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage}: Props) => {
 
 
     const [active, setActive] = useState(true)
@@ -68,12 +69,17 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef}: Props) => {
         // Load Canal Mesh
         const loader = new PLYLoader()
         let color = 0
-        if (canal !== "all") color = canalColours[canal]
         for (let i = 0; i < meshPartsLength[canal]; i++) {
             const meshPath = "meshes/" + canal + "_" + i.toString() + ".ply"
             loader.load(meshPath, (geometry) => {
 
                 if (canal === "all") color = coloursAll[i]
+                else {
+                    if (affected && ((i+1 === stage && canal === "lateral") || 
+                                    (i === stage && canal !== "lateral"))) color = RED_COLOUR
+                    else color = canalColours[canal]
+                }
+
                 const material = new THREE.MeshStandardMaterial({color: color, side: THREE.DoubleSide, flatShading: true})
                 const loadedMesh = new THREE.Mesh(geometry, material);
 
@@ -103,7 +109,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef}: Props) => {
             meshParts.current = [] // flush any previous loadings
         }
 
-    }, [ear, affectedCanal, active, matrixRef])
+    }, [ear, affectedCanal, active, matrixRef, stage])
 
 
     return (
