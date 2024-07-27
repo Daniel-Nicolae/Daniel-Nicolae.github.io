@@ -37,7 +37,7 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 
                 <div style={{height: 40}}/>
-                <div style={{fontSize: 24}}>Please select the affected canal</div>
+                <div style={{fontSize: 24}}>Please select the affected canal and ear</div>
                 <div style={{height: 60}}/>
 
         <div style={{display: "flex", flexDirection: "row", width: "100%", justifyContent: "center", alignItems: "center"}}>
