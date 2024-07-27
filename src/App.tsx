@@ -31,12 +31,12 @@ function App() {
                     matrixRef={matrixRef}/>
             </div>
 
-            <div style={{width: "45%"}}>
-                <GraphicsWindow 
-                    ear={affectedEar}
-                    affectedCanal={affectedCanal}
-                    matrixRef={matrixRef}/>
-            </div>
+                <div style={{width: "45%"}}>
+                    <GraphicsWindow 
+                        ear={affectedEar}
+                        affectedCanal={affectedCanal}
+                        matrixRef={matrixRef}/>
+                </div>
 
             <div style={{display: "flex", flexDirection: "column", width: "25%"}}>
                 <SelectWindow 

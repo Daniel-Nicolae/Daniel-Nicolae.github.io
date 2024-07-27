@@ -1,17 +1,27 @@
-import { Matrix4 } from "three";
+import { Vector3 } from "three";
 
-const computeCurrentLandmarks = (cameraMatrixRefs: React.MutableRefObject<Matrix4>[],
-                                 matrixRef: React.MutableRefObject<Matrix4>,
-                                 activeCameraNumberRef: React.MutableRefObject<number>) => {
+const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vector3[]>[],
+                                 landmarksRef: React.MutableRefObject<Vector3[]>) => {
 
-    // let s: number
-    // for (let i=0; i<3; i++) {
-    //     s = 0
-    //     for (let landmark of cameraMatrixRefs[i].current) s += landmark.x
-    //     console.log(i, s)
-    // }
-    // console.log("##################")
-    matrixRef.current = cameraMatrixRefs[activeCameraNumberRef.current].current
+    const x = new Vector3()
+    const y = new Vector3()
+
+    let atLeastOne = false
+
+    for (let i=0; i<3; i++) {
+        if (cameraLandmarksRefs[i].current.length) {
+            atLeastOne = true
+            const Ai = cameraLandmarksRefs[i].current[2]
+            const Bi = cameraLandmarksRefs[i].current[4]
+            const Ci = cameraLandmarksRefs[i].current[0]
+            x.addScaledVector(Bi.subVectors(Bi, Ai), 1/3)
+            y.addScaledVector(Ci.subVectors(Ci, Ai), 1/3)
+        }
+    }
+
+    if (atLeastOne) {
+        landmarksRef.current = [x, y]
+    }
 }
 
 

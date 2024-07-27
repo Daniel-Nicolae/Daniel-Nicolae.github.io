@@ -6,16 +6,18 @@ import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 import { Matrix4, Vector3 } from "three"
 import getRotationMatrix from "../utils/getRotationMatrix"
 import Toggler from "./Toggler"
+import { cameraMatrices } from "../utils/cameraPositions"
 
 interface Props {
     number: number
     IDs: string[]
     ear: "left"|"right"
-    matrixRef: React.MutableRefObject<Matrix4>
+    landmarksRef: React.MutableRefObject<Vector3[]>
     activeCameraNumberRef: React.MutableRefObject<number>
+    isClinicalRef: React.MutableRefObject<boolean>
 }
 
-const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: Props) => {
+const IndividualCamera = ({number, IDs, ear, landmarksRef, activeCameraNumberRef, isClinicalRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -23,9 +25,6 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
         clearInterval(loop)
         setIDi((IDi + 1) % IDs.length)
     }
-
-    // clinical position
-    const isClinical = useRef(true)
 
     // facemesh drawing
     const drawMesh = useRef(false)
@@ -72,9 +71,14 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
                     const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
 
                         // -y and -z to convert from y positive downwards (model) to upwards (rendering)
-                    const usefulLandmarksVec = usefulLandmarks.map((item) => new Vector3(item.x, -item.y, -item.z))
-                    matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]],
-                                                             number, isClinical)
+                    landmarksRef.current = usefulLandmarks.map((item) => {
+                        const landmarkVec = new Vector3(item.x, -item.y, -item.z)
+                        if (isClinicalRef.current) landmarkVec.applyMatrix4(cameraMatrices[number-1])
+                        return landmarkVec
+                    })
+
+                    // matrixRef.current = getRotationMatrix([usefulLandmarksVec[2], usefulLandmarksVec[4], usefulLandmarksVec[0]],
+                    //                                          number, isClinical)
 
                     // draw face mesh
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
@@ -89,6 +93,7 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
                                             fillColor: "#FFFFFF", color: "#0022AA"})
                 }
                 else {
+                    landmarksRef.current = []
                     canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
                 }
             }
@@ -103,6 +108,11 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
         <div style={{display: "flex", flexDirection: "row", height: cameraSize, alignItems: "center"}}>
 
             <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center"}}>
+                {number === 1 && <>
+                    <Toggler boolRef={isClinicalRef} label="In clinic"/>
+                    <div style={{height: 10}}/>
+                    </>}
+
                 <div style={{fontSize: 24}}> Camera {number} </div> 
                 <div style={{height: 15}}/>
                 <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
@@ -110,8 +120,6 @@ const IndividualCamera = ({number, IDs, ear, matrixRef, activeCameraNumberRef}: 
                 <Toggler boolRef={drawMesh} label="Face mesh"/>
                 <div style={{height: 10}}/>
                 <button className="btn btn-outline-dark" onClick={() => {activeCameraNumberRef.current = number-1}}> Activate </button>
-                <div style={{height: 10}}/>
-                <Toggler boolRef={isClinical} label="In clinic"/>
             </div> 
 
             <div style={{width: 25}}/>

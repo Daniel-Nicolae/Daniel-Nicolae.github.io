@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import IndividualCamera from "./IndividualCamera"
 import computeCurrentLandmarks from "../utils/currentLandmarks"
-import { Matrix4 } from "three"
+import { Matrix4, Vector3 } from "three"
+import getRotationMatrix from "../utils/getRotationMatrix"
 
 
 interface Props {
@@ -15,6 +16,13 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
     const activeCameraNumberRef = useRef(0)
 
+    const isClinicalRef = useRef(true)
+    const landmarksRef = useRef<Vector3[]>([])
+    const cameraLandmarksRefs = [useRef<Vector3[]>([]),
+                                 useRef<Vector3[]>([]),
+                                 useRef<Vector3[]>([])]
+
+    const [lost, setLost] = useState(false)
 
     useEffect(() => {
         async function getDevices() {
@@ -24,16 +32,17 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
-        let loop = setInterval(() => {computeCurrentLandmarks(cameraMatrixRefs, matrixRef, activeCameraNumberRef)}, 30)
+        let loop = setInterval(() => {
+            computeCurrentLandmarks(cameraLandmarksRefs, landmarksRef)
+            if (landmarksRef.current.length) 
+                matrixRef.current = getRotationMatrix(landmarksRef, isClinicalRef)
+        }, 30)
 
         return () => {
             clearInterval(loop)
         }
      }, [])
 
-    const cameraMatrixRefs = [useRef<Matrix4>(new Matrix4()),
-                              useRef<Matrix4>(new Matrix4()),
-                              useRef<Matrix4>(new Matrix4())]
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
@@ -43,24 +52,27 @@ const CameraWindow = ({ear, matrixRef}: Props) => {
                     number={1}
                     IDs={cameraIDs}
                     ear={ear}
-                    matrixRef={cameraMatrixRefs[0]}
+                    landmarksRef={cameraLandmarksRefs[0]}
                     activeCameraNumberRef={activeCameraNumberRef}
+                    isClinicalRef={isClinicalRef}
                 />
 
             <IndividualCamera
                     number={2}
                     IDs={cameraIDs}
                     ear={ear}
-                    matrixRef={cameraMatrixRefs[1]}
+                    landmarksRef={cameraLandmarksRefs[1]}
                     activeCameraNumberRef={activeCameraNumberRef}
+                    isClinicalRef={isClinicalRef}
                 />
 
             <IndividualCamera
                     number={3}
                     IDs={cameraIDs}
                     ear={ear}
-                    matrixRef={cameraMatrixRefs[2]}
+                    landmarksRef={cameraLandmarksRefs[2]}
                     activeCameraNumberRef={activeCameraNumberRef}
+                    isClinicalRef={isClinicalRef}
                 />
 
         </div>
