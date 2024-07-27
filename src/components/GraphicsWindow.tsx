@@ -5,13 +5,13 @@ import { useState } from "react"
 interface Props {
     ear: "left" | "right"
     affectedCanal: "posterior"|"anterior"|"lateral"|""
-    matrixRef: React.MutableRefObject<Matrix4>
+    matrixRef: React.MutableRefObject<Matrix4>,
+    stage: number,
+    alignmentRef: React.MutableRefObject<number>
 }
 
 
-const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
-
-    const [stage, setStage] = useState(1)
+const GraphicsWindow = ({ear, affectedCanal, matrixRef, stage, alignmentRef}: Props) => {
 
     return (
         <>
@@ -23,14 +23,16 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
                         ear={ear}
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
-                        stage={stage}/>
+                        stage={stage}
+                        alignmentRef={alignmentRef}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="anterior" 
                         ear={ear}
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
-                        stage={stage}/>
+                        stage={stage}
+                        alignmentRef={alignmentRef}/>
                 </div>
 
                 <div style={{height: 5}}/>
@@ -41,14 +43,16 @@ const GraphicsWindow = ({ear, affectedCanal, matrixRef}: Props) => {
                         ear={ear}
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
-                        stage={stage}/>
+                        stage={stage}
+                        alignmentRef={alignmentRef}/>
                     <div style={{width: 40}}/>
                     <CanalRendering 
                         canal="all" 
                         ear={ear}
                         affectedCanal={affectedCanal}
                         matrixRef={matrixRef}
-                        stage={0}/>
+                        stage={0}
+                        alignmentRef={null}/>
                 </div>
 
             </div>

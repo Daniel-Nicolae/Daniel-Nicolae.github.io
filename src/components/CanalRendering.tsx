@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
-import { meshPartsLength } from "../utils/alignment";
+import { getAlignment, meshPartsLength } from "../utils/alignment";
 import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR } from "../utils/config";
 
 interface Props {
@@ -10,9 +10,14 @@ interface Props {
     affectedCanal: "posterior"|"anterior"|"lateral"|""
     matrixRef: React.MutableRefObject<THREE.Matrix4>
     stage: number
+    alignmentRef: React.MutableRefObject<number> | null
 }
 
-const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage}: Props) => {
+function capitalize(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentRef}: Props) => {
 
 
     const [active, setActive] = useState(true)
@@ -46,7 +51,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage}: Props) =>
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera((affected || canal === "all") ? 15 : 30, 1)
+        camera.current = new THREE.PerspectiveCamera(15, 1)
         camera.current.position.set(0, 0, canal === "all" ? 70 : 39) 
         camera.current.lookAt(0, 0, 0)
 
@@ -91,13 +96,16 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage}: Props) =>
         }
 
         let loop: number = requestAnimationFrame(animate)
-        let d = 0
+
         function animate() {
             if (meshParts.current[meshPartsLength[canal] - 1]) {
                 for (let mesh of meshParts.current) {
                     mesh.rotation.set(0, 0, 0)
                     mesh.applyMatrix4(matrixRef.current)
                 }
+
+                if (affected) alignmentRef!.current = getAlignment(canal, stage, meshParts.current[stage])
+
                 renderer.current!.render(scene.current!, camera.current!)
             }
             loop = requestAnimationFrame(animate)
@@ -125,7 +133,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage}: Props) =>
                     onChange={handleChange}
                 /> 
                 <div style={{width: 7}}/>
-                <div style={{fontSize: 20}}>{canal}</div>
+                <div style={{fontSize: 20}}>{capitalize(canal)}</div>
             </div>
             <div style={{height: 5}}/>
 

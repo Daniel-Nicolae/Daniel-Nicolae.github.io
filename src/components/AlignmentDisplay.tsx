@@ -9,10 +9,10 @@ interface Props {
     alignmentRef: React.MutableRefObject<number>
 }
 
-const GREEN = "#11bb22"
+const GREEN = "#44DD22"
 const BLACK = "#000000"
-const HIGH_THRESHOLD = 0.95
-const LOW_THRESHOLD = 0.9
+const HIGH_THRESHOLD = 0.7
+const LOW_THRESHOLD = 0.4
 const DURATION = 5.0
 
 const AlignmentDisplay = ({stage, canal, stageCallback, alignmentRef}: Props) => {
@@ -62,11 +62,12 @@ const AlignmentDisplay = ({stage, canal, stageCallback, alignmentRef}: Props) =>
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 
-            <div style={{color: color, fontSize: 24}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
+            <div style={{height: 20}}/>
+            <div style={{color: color, fontSize: 30}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
 
             <div style={{height: 30}}/>
             {displayTimer !== -1.0 && 
-                <div style={{color: color, fontSize: 24}}>
+                <div style={{color: color, fontSize: 30}}>
                     Keep for {(DURATION - displayTimer).toFixed(2)} seconds.
                 </div>}
         </div>

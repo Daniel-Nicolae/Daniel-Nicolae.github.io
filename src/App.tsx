@@ -54,12 +54,13 @@ function App() {
                     earCallback={setAffectedEar}
                     canalCallback={handleCanalChange}/>
                 <div style={{height: 90}}/>
+                {affectedCanal && 
                 <AlignmentDisplay
                     stage={stage}
                     canal={affectedCanal}
                     stageCallback={handleStageAdvance}
                     alignmentRef={alignmentRef}
-                    />
+                    />}
 
             </div>
         </div>
