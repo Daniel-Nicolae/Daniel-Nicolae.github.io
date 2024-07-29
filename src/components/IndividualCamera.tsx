@@ -32,7 +32,7 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
         createFaceLandmarker(model)
 
         return () => {clearInterval(loop)}
-    }, [])
+    }, [IDi])
 
 
     // model inference 
