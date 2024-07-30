@@ -23,9 +23,6 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
         setIDi((IDi + 1) % IDs.length)
     }
 
-    // facemesh drawing
-    const drawMesh = useRef(false)
-
     // face model loader
     const model = useRef<vision.FaceLandmarker>() as React.MutableRefObject<vision.FaceLandmarker>
     useEffect(() => {
@@ -70,14 +67,8 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                     return landmarkVec
                 })
 
-                // draw face mesh
-                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
-                if (drawMesh.current) drawingUtils.drawConnectors(
-                                        faceLandmarkerResult.faceLandmarks[0],
-                                        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-                                        { color: "#000000", lineWidth: 0.6 })
-
                 // draw useful landmarks
+                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
                 drawingUtils.drawLandmarks(usefulLandmarks,
                                         {radius: 4, lineWidth: 2, 
                                         fillColor: "#FFFFFF", color: "#0022AA"})
@@ -105,8 +96,6 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                 <div style={{fontSize: 24}}> Camera {number} </div> 
                 <div style={{height: 15}}/>
                 <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
-                <div style={{height: 20}}/>
-                <Toggler boolRef={drawMesh} label="Face mesh"/>
             </div> 
 
             <div style={{width: 25}}/>
