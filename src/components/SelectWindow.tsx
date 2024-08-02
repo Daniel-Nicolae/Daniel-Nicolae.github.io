@@ -13,23 +13,17 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
     const [isHoverP, setIsHoverP] = useState(false)
     const [isHoverA, setIsHoverA] = useState(false)
     const [isHoverL, setIsHoverL] = useState(false)
-    const [isHoverLE, setIsHoverLE] = useState(false)
-    const [isHoverRE, setIsHoverRE] = useState(false)
 
-    const handleMouseEnter = (c: "p"|"a"|"l"|"le"|"re") => {
+    const handleMouseEnter = (c: "p"|"a"|"l") => {
         if (c === "p") setIsHoverP(true)
         if (c === "a") setIsHoverA(true)
         if (c === "l") setIsHoverL(true)
-        if (c === "le") setIsHoverLE(true)
-        if (c === "re") setIsHoverRE(true)
     }
 
-    const handleMouseLeave = (c: "p"|"a"|"l"|"le"|"re") => {
+    const handleMouseLeave = (c: "p"|"a"|"l") => {
         if (c === "p") setIsHoverP(false)
         if (c === "a") setIsHoverA(false)
         if (c === "l") setIsHoverL(false)
-        if (c === "le") setIsHoverLE(false)
-        if (c === "re") setIsHoverRE(false)
     }
 
 
@@ -81,26 +75,12 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
             <div style={{width: 20}}/>
 
             <div style={{display: "flex", flexDirection: "column", width: "40%", alignItems: "center"}}>
-                <div>
-                <button className="btn btn-lg" 
-                        onMouseEnter={() => {handleMouseEnter("le")}}
-                        onMouseLeave={() => {handleMouseLeave("le")}}
-                        onClick={() => {earCallback("left")}}
-                        style={{backgroundColor: isHoverLE ? "black" : "white", 
-                                borderColor: "black", 
-                                color: isHoverLE ? "white" : "black"}}>Left</button>
+                <button className="btn btn-lg btn-outline-dark"
+                        onClick={() => {earCallback("left")}}>Left</button>
                 <div style={{height: 10}}/>
-                </div>
 
-                <div>
-                <button className="btn btn-lg" 
-                        onMouseEnter={() => {handleMouseEnter("re")}}
-                        onMouseLeave={() => {handleMouseLeave("re")}}
-                        onClick={() => {earCallback("right")}}
-                        style={{backgroundColor: isHoverRE ? "black" : "white", 
-                                borderColor: "black", 
-                                color: isHoverRE ? "white" : "black"}}>Right</button>
-                </div>
+                <button className="btn btn-lg btn-outline-dark"
+                        onClick={() => {earCallback("right")}}>Right</button>
             </div>
         </div>
         <div style={{height: 40}}/>
