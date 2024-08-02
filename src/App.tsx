@@ -59,6 +59,7 @@ function App() {
                 {affectedCanal && 
                 <AlignmentDisplay
                     stage={stage}
+                    stageCallback={handleStageAdvance}
                     alignmentRef={alignmentRef}
                     alignedRef={alignedRef}
                     />}
