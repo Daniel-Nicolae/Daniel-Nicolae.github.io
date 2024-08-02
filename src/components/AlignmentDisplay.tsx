@@ -19,13 +19,6 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
     const [playAligned] = useSound("sounds/aligned.mp3")
     const [playNotAligned] = useSound("sounds/naligned.mp3")
 
-    const handleNext = () => {
-        setColor(BLACK)
-        alignedRef.current = false
-        clearInterval(loop)
-        stageCallback()
-    }
-
     let loop: NodeJS.Timer
     useEffect(() => {
         loop = setInterval(() => {
@@ -47,9 +40,10 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
         }, 150)
 
         return () => {
-            setColor(BLACK)
-            alignedRef.current = false
             clearInterval(loop)
+            alignedRef.current = false
+            alignmentRef.current = 0.0
+            setColor(BLACK)
         }
     }, [stage, playAligned, playNotAligned])
 
@@ -61,7 +55,7 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
             <div style={{height: 30}}/>
             <div style={{color: color, fontSize: 30}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
             <div style={{height: 30}}/>
-            <button className="btn btn-lg btn-outline-dark" onClick={handleNext}>Next stage</button>
+            <button className="btn btn-lg btn-outline-dark" onClick={stageCallback}>Next stage</button>
         </div>
     ) 
     
