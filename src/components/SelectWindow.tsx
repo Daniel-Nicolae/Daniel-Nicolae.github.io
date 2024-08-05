@@ -83,7 +83,9 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
                         onClick={() => {earCallback("right")}}>Right</button>
             </div>
         </div>
-        <div style={{height: 40}}/>
+        <div style={{height: 20}}/>
+        <div style={{fontSize: 20, color: "#AA1122"}}>Red arrow indicates gravity direction</div>
+        <div style={{height: 20}}/>
         {canal ? <div style={{fontSize: 24}}>{"Affected:  " + ear + " " + canal}</div> : 
                  <div style={{height: 36}}></div>}
         </div>

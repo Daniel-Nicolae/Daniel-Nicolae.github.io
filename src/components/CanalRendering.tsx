@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { getAlignment, meshPartsLength } from "../utils/alignment";
-import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR, HIGH_THRESHOLD } from "../utils/config";
+import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, GREEN_COLOUR, RED_COLOUR} from "../utils/config";
 
 interface Props {
     canal: "posterior" | "anterior" | "lateral" | "all",
@@ -102,6 +102,29 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                 meshParts.current.push(loadedMesh)
             })
         }
+
+        // Define gravity vector
+        const arrowMaterial = new THREE.LineBasicMaterial({color: RED_COLOUR, linewidth: 10})
+        const points = []
+        if (canal === "all") {
+            points.push(new THREE.Vector3(7.8, -3.5, 0))
+            points.push(new THREE.Vector3(7.8, -7.2, 0))
+            points.push(new THREE.Vector3(8.45, -6.1, 0))
+            points.push(new THREE.Vector3(7.8, -7.2, 0))
+            points.push(new THREE.Vector3(7.15, -6.1, 0))
+        }
+        else {
+            points.push(new THREE.Vector3(4.3, -2, 0))
+            points.push(new THREE.Vector3(4.3, -4, 0))
+            points.push(new THREE.Vector3(4.7, -3.4, 0))
+            points.push(new THREE.Vector3(4.3, -4, 0))
+            points.push(new THREE.Vector3(3.9, -3.4, 0))
+        }
+
+
+        const arrowGeometry = new THREE.BufferGeometry().setFromPoints(points)
+        const arrow = new THREE.Line(arrowGeometry, arrowMaterial)
+        scene.current.add(arrow)
 
         let loop: number = requestAnimationFrame(animate)
 
