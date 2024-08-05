@@ -7,20 +7,23 @@ const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vec
     const x = new Vector3()
     const y = new Vector3()
 
-    let atLeastOne = false
+    let active = 0
 
     for (let i=0; i<3; i++) {
         if (cameraLandmarksRefs[i].current[0].distanceTo(zeroVector) > 0.001) {
-            atLeastOne = true
+            active += 1
             const Ai = cameraLandmarksRefs[i].current[2]
             const Bi = cameraLandmarksRefs[i].current[4]
             const Ci = cameraLandmarksRefs[i].current[0]
-            x.addScaledVector(Bi.subVectors(Bi, Ai), 1/3)
-            y.addScaledVector(Ci.subVectors(Ci, Ai), 1/3)
+            x.addScaledVector(Bi.subVectors(Bi, Ai), 1)
+            y.addScaledVector(Ci.subVectors(Ci, Ai), 1)
         }
     }
+    
+    x.multiplyScalar(1.0/active)
+    y.multiplyScalar(1.0/active)
 
-    if (atLeastOne) {
+    if (active) {
         landmarksRef.current = [x, y]
     }
 }
