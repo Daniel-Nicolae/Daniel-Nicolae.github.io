@@ -30,16 +30,16 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 
-                <div style={{height: 40}}/>
+                <div style={{height: 20}}/>
                 <div style={{fontSize: 24}}>Please select the affected canal and ear</div>
-                <div style={{height: 60}}/>
+                <div style={{height: 20}}/>
 
         <div style={{display: "flex", flexDirection: "row", width: "100%", justifyContent: "center", alignItems: "center"}}>
 
             <div style={{display: "flex", flexDirection: "column", width: "40%", alignItems: "center"}}>
                 
                 <div>
-                <button className="btn btn-lg"
+                <button className="btn"
                         onClick={() => {canalCallback("posterior")}} 
                         onMouseEnter={() => {handleMouseEnter("p")}}
                         onMouseLeave={() => {handleMouseLeave("p")}}
@@ -50,7 +50,7 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
                 </div>
 
                 <div>
-                <button className="btn btn-lg" 
+                <button className="btn" 
                         onMouseEnter={() => {handleMouseEnter("a")}}
                         onMouseLeave={() => {handleMouseLeave("a")}}
                         onClick={() => {canalCallback("anterior")}}
@@ -61,7 +61,7 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
                 </div>
 
                 <div>
-                <button className="btn btn-lg" 
+                <button className="btn" 
                         onMouseEnter={() => {handleMouseEnter("l")}}
                         onMouseLeave={() => {handleMouseLeave("l")}}
                         onClick={() => {canalCallback("lateral")}}
@@ -75,19 +75,19 @@ const SelectWindow = ({ear, canal, earCallback, canalCallback}: Props) => {
             <div style={{width: 20}}/>
 
             <div style={{display: "flex", flexDirection: "column", width: "40%", alignItems: "center"}}>
-                <button className="btn btn-lg btn-outline-dark"
+                <button className="btn btn-outline-dark"
                         onClick={() => {earCallback("left")}}>Left</button>
                 <div style={{height: 10}}/>
 
-                <button className="btn btn-lg btn-outline-dark"
+                <button className="btn btn-outline-dark"
                         onClick={() => {earCallback("right")}}>Right</button>
             </div>
         </div>
-        <div style={{height: 20}}/>
+        <div style={{height: 10}}/>
         <div style={{fontSize: 20, color: "#AA1122"}}>Red arrow indicates gravity direction</div>
-        <div style={{height: 20}}/>
+        <div style={{height: 10}}/>
         {canal ? <div style={{fontSize: 24}}>{"Affected:  " + ear + " " + canal}</div> : 
-                 <div style={{height: 36}}></div>}
+                 <div style={{height: 141}}></div>}
         </div>
     )
 }

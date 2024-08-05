@@ -5,6 +5,7 @@ import GraphicsWindow from './components/GraphicsWindow';
 import { Matrix4 } from 'three';
 import SelectWindow from './components/SelectWindow';
 import AlignmentDisplay from './components/AlignmentDisplay';
+import HeadRendering from './components/HeadRendering';
 
 function App() {
 
@@ -49,13 +50,13 @@ function App() {
                         alignedRef={alignedRef}/>
                 </div>
 
-            <div style={{display: "flex", flexDirection: "column", width: "25%"}}>
+            <div style={{display: "flex", flexDirection: "column", width: "27%"}}>
                 <SelectWindow 
                     ear={affectedEar}
                     canal={affectedCanal}
                     earCallback={setAffectedEar}
                     canalCallback={handleCanalChange}/>
-                <div style={{height: 90}}/>
+                {/* <div style={{height: 90}}/> */}
                 {affectedCanal && 
                 <AlignmentDisplay
                     stage={stage}
@@ -63,6 +64,10 @@ function App() {
                     alignmentRef={alignmentRef}
                     alignedRef={alignedRef}
                     />}
+                <div style={{height: 31}}/>
+                <HeadRendering
+                    ear={affectedEar}
+                    matrixRef={matrixRef}/>
 
             </div>
         </div>

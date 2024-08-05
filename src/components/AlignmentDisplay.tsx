@@ -51,10 +51,9 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
 
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-
-            <div style={{height: 30}}/>
-            <div style={{color: color, fontSize: 30}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
-            <div style={{height: 30}}/>
+            <div style={{height: 10}}/>
+            <div style={{color: color, fontSize: 24}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
+            <div style={{height: 10}}/>
             <button className="btn btn-lg btn-outline-dark" onClick={stageCallback}>Next stage</button>
         </div>
     ) 
