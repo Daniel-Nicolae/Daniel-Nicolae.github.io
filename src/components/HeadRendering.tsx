@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import * as THREE from "three";
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
-import { getAlignment, meshPartsLength } from "../utils/alignment";
 import { BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, BACKGR_COLOUR, RED_COLOUR} from "../utils/config";
 
 interface Props {
@@ -17,19 +16,16 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         setActive(!active)
     }
 
-
     const camera = useRef<THREE.Camera>()
     const scene = useRef<THREE.Scene>()
     const renderer = useRef<THREE.WebGLRenderer>()
     const meshParts = useRef<THREE.Mesh[]>([])
 
-    const coloursAll = [BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, 0x333333, 0x333333]
-
     useEffect(() => {
 
         // Renderer initialisation
         const canvas = document.getElementById("headCanvas") as HTMLCanvasElement
-        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: true})
+        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: false})
         const size = active ? 400 : 0
 		renderer.current.setSize(size, size)
 
@@ -39,20 +35,24 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera(15, 1)
-        camera.current.position.set(0, 0, 100) 
+        camera.current = new THREE.PerspectiveCamera(5, 1)
+        camera.current.position.set(0, 50, 250) 
         camera.current.lookAt(0, 0, 0)
 
 
         // Add lights
-        const sectionHighlight = new THREE.AmbientLight(0xffffff, 0.8)
-        scene.current.add(sectionHighlight)
+        const background = new THREE.AmbientLight(0xffffff, 0.1)
+        scene.current.add(background)
 
-        const pointLight1 = new THREE.PointLight(0xffffff, 5000)
-        pointLight1.castShadow = true
-        pointLight1.position.set(0, 20, 20)
-        pointLight1.lookAt(0, 0, 0)
-        scene.current.add(pointLight1)
+        const pointLight2 = new THREE.PointLight(0xffffff, 2000)
+        pointLight2.castShadow = true
+        pointLight2.position.set(17, 20, 0)
+        scene.current.add(pointLight2)
+
+        const pointLight3 = new THREE.PointLight(0xffffff, 2000)
+        pointLight3.castShadow = true
+        pointLight3.position.set(-17, 20, 0)
+        scene.current.add(pointLight3)
 
 
         // Load Ear Mesh
@@ -65,7 +65,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
             if ((ear === "left"))
                 loadedMesh.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1))
 
-            loadedMesh.applyMatrix4(new THREE.Matrix4().makeScale(0.3, 0.3, 0.3))
+            loadedMesh.applyMatrix4(new THREE.Matrix4().makeScale(0.25, 0.25, 0.25))
 
 
             scene.current!.add(loadedMesh)
@@ -75,7 +75,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Load head mesh
         loader.load("meshes/head.ply", (geometry) => {
 
-            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.5})
+            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.98})
             const loadedMesh = new THREE.Mesh(geometry.center(), material)
 
             scene.current!.add(loadedMesh)
@@ -103,9 +103,13 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         function animate() {
             if (meshParts.current[0]) {
                 for (let mesh of meshParts.current) {
-                    mesh.rotation.set(0, 0, 0)
-                    if (mesh.geometry.attributes.position.array.length === 33435) 
-                        mesh.position.set(ear === "left" ? 3 : -3, 0, 0)
+                    
+                    if (mesh.geometry.attributes.position.array.length === 33435) {
+                        mesh.rotation.set(0, 0, 0)
+                        mesh.position.set(ear === "left" ? 3.5 : -3.5, 0, 0)
+                    }
+                    else mesh.rotation.set(-0.7, 0, 3.1)
+                        
 
                     mesh.applyMatrix4(matrixRef.current)
                 }

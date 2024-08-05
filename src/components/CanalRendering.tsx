@@ -42,7 +42,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
 
         // Renderer initialisation
         const canvas = document.getElementById("canalCanvas" + canal) as HTMLCanvasElement
-        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: true})
+        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: false})
         const size = active ? 400 : 0
 		renderer.current.setSize(size, size)
 
@@ -69,13 +69,11 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
         const pointLight2 = new THREE.PointLight(0xffffff, canal === "all" ? 850 : 1300)
         pointLight2.castShadow = true
         pointLight2.position.set(0, 15, 8)
-        pointLight2.lookAt(0, 0, 0)
         scene.current.add(pointLight2)
 
         const pointLight3 = new THREE.PointLight(0xffffff, 200)
         pointLight3.castShadow = true
         pointLight3.position.set(0, -20, 0)
-        pointLight3.lookAt(0, 0, 5)
         scene.current.add(pointLight3)
 
 
