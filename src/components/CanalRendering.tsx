@@ -63,13 +63,20 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
 
         const pointLight1 = new THREE.PointLight(0xffffff, 200)
         pointLight1.castShadow = true
-        pointLight1.position.set(0, 0, 10)
-        // scene.current.add(pointLight1)
+        pointLight1.position.set(0, 0, 35)
+        scene.current.add(pointLight1)
 
-        const pointLight2 = new THREE.PointLight(0xffffff, canal === "all" ? 1000 : 1500)
+        const pointLight2 = new THREE.PointLight(0xffffff, canal === "all" ? 850 : 1300)
         pointLight2.castShadow = true
         pointLight2.position.set(0, 15, 8)
+        pointLight2.lookAt(0, 0, 0)
         scene.current.add(pointLight2)
+
+        const pointLight3 = new THREE.PointLight(0xffffff, 200)
+        pointLight3.castShadow = true
+        pointLight3.position.set(0, -20, 0)
+        pointLight3.lookAt(0, 0, 5)
+        scene.current.add(pointLight3)
 
 
         // Load Canal Mesh
@@ -106,14 +113,15 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                 }
 
                 if (affected) {
-                    alignmentRef!.current = getAlignment(canal, stage, meshParts.current[stage])
+                    const segmentID = canal === "lateral" ? stage - 1 : stage
+                    alignmentRef!.current = getAlignment(canal, stage, meshParts.current[segmentID])
                     if (alignedRef.current) {
                         const material = new THREE.MeshStandardMaterial({color: GREEN_COLOUR, side: THREE.DoubleSide, flatShading: true})
-                        meshParts.current[stage].material = material
+                        meshParts.current[segmentID].material = material
                     } 
                     else {
                         const material = new THREE.MeshStandardMaterial({color: RED_COLOUR, side: THREE.DoubleSide, flatShading: true})
-                        meshParts.current[stage].material = material
+                        meshParts.current[segmentID].material = material
                     }
                 }
 
