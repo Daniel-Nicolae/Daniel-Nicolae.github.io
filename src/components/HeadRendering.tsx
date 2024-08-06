@@ -25,7 +25,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
 
         // Renderer initialisation
         const canvas = document.getElementById("headCanvas") as HTMLCanvasElement
-        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: false})
+        renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: true})
         const size = active ? 400 : 0
 		renderer.current.setSize(size, size)
 
@@ -75,7 +75,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Load head mesh
         loader.load("meshes/head.ply", (geometry) => {
 
-            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.9})
+            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.5})
             const loadedMesh = new THREE.Mesh(geometry.center(), material)
 
             scene.current!.add(loadedMesh)
@@ -121,7 +121,6 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
 
         return () => {
             cancelAnimationFrame(loop) 
-            scene.current!.clear()
             meshParts.current = [] // flush any previous loadings
         }
 
