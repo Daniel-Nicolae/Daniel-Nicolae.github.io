@@ -1,6 +1,6 @@
 import { Matrix4 } from "three";
 
-const pitch =  Math.PI / 2 
+const pitch = (90) / 180 * Math.PI
 const topCameraMatrix = new Matrix4()
 topCameraMatrix.makeRotationX(-pitch)
 
