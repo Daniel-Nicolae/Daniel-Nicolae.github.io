@@ -36,7 +36,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
 
         // Camera initialisation
         camera.current = new THREE.PerspectiveCamera(5, 1)
-        camera.current.position.set(0, 0, 250) 
+        camera.current.position.set(0, 0, 255) 
         camera.current.lookAt(0, 0, 0)
 
 
