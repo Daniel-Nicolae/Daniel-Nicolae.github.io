@@ -35,8 +35,8 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         scene.current.background = new THREE.Color(BACKGR_COLOUR)
 
         // Camera initialisation
-        camera.current = new THREE.PerspectiveCamera(5, 1)
-        camera.current.position.set(0, 0, 255) 
+        camera.current = new THREE.PerspectiveCamera(12, 1)
+        camera.current.position.set(0, 0, 100) 
         camera.current.lookAt(0, 0, 0)
 
 
@@ -87,11 +87,11 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Define gravity vector
         const arrowMaterial = new THREE.LineBasicMaterial({color: RED_COLOUR, linewidth: 10})
         const points = []
-        points.push(new THREE.Vector3(10, -5, 0))
-        points.push(new THREE.Vector3(10, -10.3, 0))
-        points.push(new THREE.Vector3(10.9, -8.7, 0))
-        points.push(new THREE.Vector3(10, -10.3, 0))
-        points.push(new THREE.Vector3(9.1, -8.7, 0))
+        points.push(new THREE.Vector3(8.8, -4, 0))
+        points.push(new THREE.Vector3(8.8, -8.3, 0))
+        points.push(new THREE.Vector3(9.6, -6.8, 0))
+        points.push(new THREE.Vector3(8.8, -8.3, 0))
+        points.push(new THREE.Vector3(8, -6.8, 0))
 
 
         const arrowGeometry = new THREE.BufferGeometry().setFromPoints(points)
