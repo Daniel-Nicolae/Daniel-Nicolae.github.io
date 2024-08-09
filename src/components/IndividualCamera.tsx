@@ -14,6 +14,8 @@ interface Props {
     isClinicalRef: React.MutableRefObject<boolean>
 }
 
+const labels = ["Left", "Top", "Right"]
+
 const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => {
 
     // toggle handler
@@ -87,15 +89,15 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
 
         <div style={{display: "flex", flexDirection: "row", height: cameraSize, alignItems: "center"}}>
 
-            <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center"}}>
-                {number === 1 && <>
+            <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center", width: "20%"}}>
+                {/* {number === 1 && <>
                     <Toggler boolRef={isClinicalRef} label="In clinic"/>
                     <div style={{height: 10}}/>
-                    </>}
+                    </>} */}
 
-                <div style={{fontSize: 24}}> Camera {number} </div> 
+                <div style={{fontSize: 24, textAlign: "center"}}>{labels[number-1] + " Camera"} </div> 
                 <div style={{height: 15}}/>
-                <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
+                <button className="btn btn-outline-dark" onClick={handleToggle}> Toggle </button>
             </div> 
 
             <div style={{width: 25}}/>

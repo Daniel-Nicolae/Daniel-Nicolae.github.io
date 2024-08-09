@@ -35,7 +35,7 @@ function App() {
 
             <div style={{width: "1%"}}/>
 
-            <div style={{width: "25%"}}>
+            <div style={{width: "23%"}}>
                 <CameraWindow 
                     matrixRef={matrixRef}/>
             </div>
