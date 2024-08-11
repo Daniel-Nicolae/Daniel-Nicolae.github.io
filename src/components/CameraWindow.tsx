@@ -31,7 +31,7 @@ const CameraWindow = ({matrixRef}: Props) => {
         }
         getDevices()
         let loop = setInterval(() => {
-            computeCurrentLandmarks(cameraLandmarksRefs, landmarksRef)
+            computeCurrentLandmarks(cameraLandmarksRefs, landmarksRef, setLost)
             if (landmarksRef.current.length > 0) {
                 matrixRef.current = getRotationMatrix(landmarksRef.current, isClinicalRef)
             }
@@ -68,6 +68,14 @@ const CameraWindow = ({matrixRef}: Props) => {
                     landmarksRef={cameraLandmarksRefs[2]}
                     isClinicalRef={isClinicalRef}
                 />
+
+            <div style={{height: 10}}/>
+            {lost &&
+            <div style={{display: "flex", flexDirection: "row"}}>
+                <div style={{width: 127}}/>
+                <div style={{fontSize: 24, color: "#AA1122", fontWeight: "bold"}}>
+                    FACE TRACKING LOST!</div>
+            </div>}
 
         </div>
     )

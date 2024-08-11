@@ -2,7 +2,8 @@ import { Vector3 } from "three";
 
 const zeroVector = new Vector3()
 const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vector3[]>[],
-                                 landmarksRef: React.MutableRefObject<Vector3[]>) => {
+                                 landmarksRef: React.MutableRefObject<Vector3[]>,
+                                 lostCallback: (lost: boolean) => void) => {
 
     const x = new Vector3()
     const y = new Vector3()
@@ -25,7 +26,9 @@ const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vec
 
     if (active) {
         landmarksRef.current = [x, y]
+        lostCallback(false)
     }
+    else lostCallback(true)
 }
 
 
