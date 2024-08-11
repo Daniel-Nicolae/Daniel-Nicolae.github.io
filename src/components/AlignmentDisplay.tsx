@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import useSound from "use-sound"
-import { HIGH_THRESHOLD, LOW_THRESHOLD } from "../utils/config"
+import { HIGH_THRESHOLD, LOW_THRESHOLD, PASS_THRESHOLD, PROGRESS_THRESHOLD, PROGRESS_TIME } from "../utils/config"
 
 interface Props {
     stage: number
@@ -18,6 +18,9 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
 
     const [playAligned] = useSound("sounds/aligned.mp3")
     const [playNotAligned] = useSound("sounds/naligned.mp3")
+    const [playNext] = useSound("sounds/stagedone.mp3")
+
+    const passTime = useRef(0.0)
 
     let loop: NodeJS.Timer
     useEffect(() => {
@@ -36,6 +39,17 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
                 playNotAligned()
             }
 
+            if (alignment > PASS_THRESHOLD)
+                passTime.current += 0.15
+
+            if (alignment < PASS_THRESHOLD && passTime.current > 0.0 && passTime.current < PROGRESS_TIME)
+                passTime.current = 0.0
+
+            if (alignment < PROGRESS_THRESHOLD && passTime.current >= PROGRESS_TIME-0.05) {
+                stageCallback()
+                playNext()
+            }
+
             setDisplayAligment(alignment)
         }, 150)
 
@@ -43,6 +57,7 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
             clearInterval(loop)
             alignedRef.current = false
             alignmentRef.current = 0.0
+            passTime.current = 0.0
             setColor(BLACK)
         }
     }, [stage, playAligned, playNotAligned])

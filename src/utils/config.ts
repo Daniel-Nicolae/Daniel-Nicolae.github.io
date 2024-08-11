@@ -17,3 +17,6 @@ export const GREEN_COLOUR = 0x44DD22
 
 export const HIGH_THRESHOLD = 0.96
 export const LOW_THRESHOLD = 0.94
+export const PASS_THRESHOLD = 0.85
+export const PROGRESS_THRESHOLD = 0.75
+export const PROGRESS_TIME = 10.0
