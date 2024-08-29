@@ -26,7 +26,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Renderer initialisation
         const canvas = document.getElementById("headCanvas") as HTMLCanvasElement
         renderer.current = new THREE.WebGLRenderer({canvas: canvas, antialias: true})
-        const size = active ? 400 : 0
+        const size = active ? document.documentElement.clientWidth * 0.207 : 0
 		renderer.current.setSize(size, size)
 
 
@@ -130,19 +130,19 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 
-            <div style={{height: 5}}/>
+            <div style={{height: "1.2vh"}}/>
             <div className="form-check form-switch"
-                 style={{display: "flex", flexDirection: "row", height: 20, alignItems: "center", justifyContent: "center"}}>
+                 style={{display: "flex", flexDirection: "row", height: "2vh", alignItems: "center", justifyContent: "center"}}>
                 <input
                     className="form-check-input"
                     type="checkbox"
                     checked={active}
                     onChange={handleChange}
                 /> 
-                <div style={{width: 7}}/>
+                <div style={{width: "0.5vw"}}/>
                 <div style={{fontSize: 20}}>{"Head"}</div>
             </div>
-            <div style={{height: 5}}/>
+            <div style={{height: "0.6vh"}}/>
 
             <canvas id={"headCanvas"}/>
         

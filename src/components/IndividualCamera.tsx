@@ -4,7 +4,6 @@ import vision, { DrawingUtils, FaceLandmarker } from "@mediapipe/tasks-vision"
 import createFaceLandmarker from "../utils/model"
 import { cameraSize, videoSize, usefulLandmarksIDs } from "../utils/config"
 import { Vector3 } from "three"
-import Toggler from "./Toggler"
 import { cameraMatrices } from "../utils/cameraPositions"
 
 interface Props {
@@ -43,8 +42,8 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
 
         const canvasElement = document.getElementById("modelCanvas" + number) as HTMLCanvasElement
 
-        canvasElement.setAttribute("width", "" + cameraSize)
-        canvasElement.setAttribute("height", "" + cameraSize)
+        canvasElement.setAttribute("width", "" + document.documentElement.clientWidth * 0.145)
+        canvasElement.setAttribute("height", "" + document.documentElement.clientWidth * 0.145)
 
         const canvasCtx = canvasElement.getContext("2d")!
         const drawingUtils = new DrawingUtils(canvasCtx)
@@ -70,14 +69,14 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                 })
 
                 // draw useful landmarks
-                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
+                canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height)
                 drawingUtils.drawLandmarks(usefulLandmarks,
                                         {radius: 4, lineWidth: 2, 
                                         fillColor: "#FFFFFF", color: "#0022AA"})
             }
             else {
                 landmarksRef.current = [new Vector3(), new Vector3(), new Vector3()]
-                canvasCtx.clearRect(0, 0, cameraSize, cameraSize)
+                canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height)
             }
         }
     }
@@ -85,22 +84,22 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
 
     return (
         <>
-        <div style={{height: 5}}/>
+        <div style={{height: "0.5vh"}}/>
 
         <div style={{display: "flex", flexDirection: "row", height: cameraSize, alignItems: "center"}}>
 
-            <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center", width: "20%"}}>
+            <div style={{display: "flex", flexDirection: "column", height: cameraSize, alignItems: "center", justifyContent: "center", width: "6vw"}}>
                 {/* {number === 1 && <>
                     <Toggler boolRef={isClinicalRef} label="In clinic"/>
                     <div style={{height: 10}}/>
                     </>} */}
 
                 <div style={{fontSize: 24, textAlign: "center"}}>{labels[number-1] + " Camera"} </div> 
-                <div style={{height: 15}}/>
-                <button className="btn btn-outline-dark" onClick={handleToggle}> Toggle </button>
+                <div style={{height: "1.5vh"}}/>
+                <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
             </div> 
 
-            <div style={{width: 25}}/>
+            <div style={{width: "1.5vw"}}/>
 
             <div style={{position: "relative", height: cameraSize}}>
                 <Webcam
@@ -128,7 +127,7 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
 
         </div>
 
-        <div style={{height: 5}}/>
+        <div style={{height: "0.5vh"}}/>
         </>
     )
 }

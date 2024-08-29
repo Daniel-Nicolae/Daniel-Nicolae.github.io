@@ -30,17 +30,17 @@ function App() {
 
     return (
         <>
-        <div style={{height: 10}}/>
+        <div style={{height: "1vh"}}/>
         <div style={{display: "flex", flexDirection: "row"}}>
 
-            <div style={{width: "1%"}}/>
+            <div style={{width: "1vw"}}/>
 
-            <div style={{width: "23%"}}>
+            <div style={{width: "24vw"}}>
                 <CameraWindow 
                     matrixRef={matrixRef}/>
             </div>
 
-                <div style={{width: "45%"}}>
+                <div style={{width: "45vw"}}>
                     <GraphicsWindow 
                         ear={affectedEar}
                         affectedCanal={affectedCanal}
@@ -50,13 +50,13 @@ function App() {
                         alignedRef={alignedRef}/>
                 </div>
 
-            <div style={{display: "flex", flexDirection: "column", width: "27%"}}>
+            <div style={{display: "flex", flexDirection: "column", width: "27vw"}}>
                 <SelectWindow 
                     ear={affectedEar}
                     canal={affectedCanal}
                     earCallback={setAffectedEar}
                     canalCallback={handleCanalChange}/>
-                {/* <div style={{height: 90}}/> */}
+
                 {affectedCanal && 
                 <AlignmentDisplay
                     stage={stage}
@@ -64,7 +64,7 @@ function App() {
                     alignmentRef={alignmentRef}
                     alignedRef={alignedRef}
                     />}
-                <div style={{height: 31}}/>
+                <div style={{height: "3.4vh"}}/>
                 <HeadRendering
                     ear={affectedEar}
                     matrixRef={matrixRef}/>

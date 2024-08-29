@@ -15,15 +15,15 @@ const Toggler = ({boolRef, label}: Props) => {
 
     return (
         <div className="form-check form-switch"
-             style={{display: "flex", flexDirection: "row", height: 20, alignItems: "center", justifyContent: "center"}}>
+             style={{display: "flex", flexDirection: "row", height: "2vh", alignItems: "center", justifyContent: "center"}}>
             <input
                 className="form-check-input"
                 type="checkbox"
                 checked={boolRef.current}
                 onChange={handleToggle}
             />
-            <div style={{width: 7}}/>
-            <div style={{fontSize: 20}}>{label}</div>
+            <div style={{width: "0.5vw"}}/>
+            <div style={{fontSize: "2vh"}}>{label}</div>
         </div>
     )
 }

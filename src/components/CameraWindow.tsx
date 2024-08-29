@@ -46,7 +46,7 @@ const CameraWindow = ({matrixRef}: Props) => {
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-            <div style={{height: 10}}/>  
+            <div style={{height: "2vh"}}/>  
 
             <IndividualCamera
                     number={1}
@@ -69,10 +69,10 @@ const CameraWindow = ({matrixRef}: Props) => {
                     isClinicalRef={isClinicalRef}
                 />
 
-            <div style={{height: 10}}/>
+            <div style={{height: "1vh"}}/>
             {lost &&
             <div style={{display: "flex", flexDirection: "row"}}>
-                <div style={{width: 127}}/>
+                <div style={{width: "8vw"}}/>
                 <div style={{fontSize: 24, color: "#AA1122", fontWeight: "bold"}}>
                     FACE TRACKING LOST!</div>
             </div>}
