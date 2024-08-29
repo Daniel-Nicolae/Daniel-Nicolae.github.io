@@ -174,7 +174,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                     onChange={handleChange}
                 /> 
                 <div style={{width: "0.5vw"}}/>
-                <div style={{fontSize: 20}}>{capitalize(canal)}</div>
+                <div style={{fontSize: "1vw"}}>{capitalize(canal)}</div>
             </div>
             <div style={{height: "0.6vh"}}/>
 

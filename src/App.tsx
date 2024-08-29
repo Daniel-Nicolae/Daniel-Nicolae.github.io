@@ -64,7 +64,7 @@ function App() {
                     alignmentRef={alignmentRef}
                     alignedRef={alignedRef}
                     />}
-                <div style={{height: "3.4vh"}}/>
+                <div style={{height: "5vh"}}/>
                 <HeadRendering
                     ear={affectedEar}
                     matrixRef={matrixRef}/>

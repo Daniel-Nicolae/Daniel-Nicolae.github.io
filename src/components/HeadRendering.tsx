@@ -140,7 +140,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
                     onChange={handleChange}
                 /> 
                 <div style={{width: "0.5vw"}}/>
-                <div style={{fontSize: 20}}>{"Head"}</div>
+                <div style={{fontSize: "1vw"}}>{"Head"}</div>
             </div>
             <div style={{height: "0.6vh"}}/>
 

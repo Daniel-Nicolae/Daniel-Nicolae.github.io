@@ -67,7 +67,7 @@ const AlignmentDisplay = ({stage, stageCallback, alignmentRef, alignedRef}: Prop
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{height: "1vh"}}/>
-            <div style={{color: color, fontSize: 24}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
+            <div style={{color: color, fontSize: "1.25vw"}}>Alignment: {(displayAlignment*100).toFixed(2)}%</div>
         </div>
     ) 
     

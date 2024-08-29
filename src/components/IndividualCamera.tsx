@@ -94,9 +94,9 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                     <div style={{height: 10}}/>
                     </>} */}
 
-                <div style={{fontSize: 24, textAlign: "center"}}>{labels[number-1] + " Camera"} </div> 
+                <div style={{fontSize: "1.25vw", textAlign: "center"}}>{labels[number-1] + " Camera"} </div> 
                 <div style={{height: "1.5vh"}}/>
-                <button className="btn btn-outline-dark btn-lg" onClick={handleToggle}> Toggle </button>
+                <button className="btn btn-outline-dark" onClick={handleToggle} style={{fontSize: "1vw"}}> Toggle </button>
             </div> 
 
             <div style={{width: "1.5vw"}}/>
