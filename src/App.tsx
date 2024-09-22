@@ -9,8 +9,8 @@ import HeadRendering from './components/HeadRendering';
 
 function App() {
 
+    // State variables for tracking the active ear, canal and Epley stage
     const [affectedEar, setAffectedEar] = useState<"left"|"right">("right")
-
     const [affectedCanal, setAffectedCanal] = useState<"posterior"|"anterior"|"lateral"|"">("")
     const handleCanalChange = (newCanal: "posterior"|"anterior"|"lateral") => {
         if (affectedCanal !== newCanal) setAffectedCanal(newCanal)
@@ -23,10 +23,14 @@ function App() {
         setStage(stage % 3 + 1)
     }
 
-    const alignmentRef = useRef(0)
-    const alignedRef = useRef(false)
+    const alignmentRef = useRef(0) // alignment score variable, changed by the CanalRendering component 
+                                   // using the alignment.ts function, and displayed by the 
+                                   // AlignmentDisplay component
+    const alignedRef = useRef(false) // boolean for whether or not the alignment is good enough,
+                                     // changed by AlignmentDisplay
 
-    const matrixRef =  useRef<Matrix4>(new Matrix4())
+    const matrixRef =  useRef<Matrix4>(new Matrix4()) // 4x4 (homogeneous coords) rotation matrix
+                        //  calculated in CameraWindow then used in each CanalRendering
 
     return (
         <>

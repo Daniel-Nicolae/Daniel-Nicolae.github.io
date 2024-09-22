@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import IndividualCamera from "./IndividualCamera"
-import computeCurrentLandmarks from "../utils/currentLandmarks"
+import computeCurrentVectors from "../utils/currentVectors"
 import { Matrix4, Vector3 } from "three"
 import getRotationMatrix from "../utils/getRotationMatrix"
 
@@ -14,15 +14,18 @@ const CameraWindow = ({matrixRef}: Props) => {
 
     const [cameraIDs, setCameraIDs] = useState<string[]>([])
 
-    const isClinicalRef = useRef(true)
-    const landmarksRef = useRef<Vector3[]>([])
+    const vectorsRef = useRef<Vector3[]>([]) // 2 of the basis vectors computed from landmarks
+
+    // landmarks from each camera
     const cameraLandmarksRefs = [useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()]),
                                  useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()]),
                                  useRef<Vector3[]>([new Vector3(), new Vector3(), new Vector3()])]
 
+    // true if no camera detects face
     const [lost, setLost] = useState(false)
 
     useEffect(() => {
+        // initialize the cameras
         async function getDevices() {
             const devices = await navigator.mediaDevices.enumerateDevices()
             const cameraDevices = devices.filter((item) => item.kind === "videoinput")
@@ -30,10 +33,13 @@ const CameraWindow = ({matrixRef}: Props) => {
             setCameraIDs(cameraIDs_temp)
         }
         getDevices()
+
         let loop = setInterval(() => {
-            computeCurrentLandmarks(cameraLandmarksRefs, landmarksRef, setLost)
-            if (landmarksRef.current.length > 0) {
-                matrixRef.current = getRotationMatrix(landmarksRef.current, isClinicalRef)
+            // every 30 ms read the landmarks from each camera and compute corresponding basis vectors
+            computeCurrentVectors(cameraLandmarksRefs, vectorsRef, setLost)
+            if (vectorsRef.current.length > 0) {
+                // use basis vectors to get the rotation matrix
+                matrixRef.current = getRotationMatrix(vectorsRef.current)
             }
                 
         }, 30)
@@ -52,21 +58,18 @@ const CameraWindow = ({matrixRef}: Props) => {
                     number={1}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[0]}
-                    isClinicalRef={isClinicalRef}
                 />
 
             <IndividualCamera
                     number={2}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[1]}
-                    isClinicalRef={isClinicalRef}
                 />
 
             <IndividualCamera
                     number={3}
                     IDs={cameraIDs}
                     landmarksRef={cameraLandmarksRefs[2]}
-                    isClinicalRef={isClinicalRef}
                 />
 
             {lost &&

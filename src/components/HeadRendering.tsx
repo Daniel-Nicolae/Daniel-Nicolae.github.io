@@ -84,7 +84,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
 
 
 
-        // Define gravity vector
+        // Draw gravity vector
         const arrowMaterial = new THREE.LineBasicMaterial({color: RED_COLOUR, linewidth: 10})
         const points = []
         points.push(new THREE.Vector3(8.8, -4, 0))
@@ -92,7 +92,6 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         points.push(new THREE.Vector3(9.6, -6.8, 0))
         points.push(new THREE.Vector3(8.8, -8.3, 0))
         points.push(new THREE.Vector3(8, -6.8, 0))
-
 
         const arrowGeometry = new THREE.BufferGeometry().setFromPoints(points)
         const arrow = new THREE.Line(arrowGeometry, arrowMaterial)
@@ -104,13 +103,13 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
             if (meshParts.current[0]) {
                 for (let mesh of meshParts.current) {
                     
+                    // A manual tuning of the mesh position
                     if (mesh.geometry.attributes.position.array.length === 33435) {
                         mesh.rotation.set(0, 0, 0)
                         mesh.position.set(ear === "left" ? 3.5 : -3.5, 0, 0)
                     }
                     else mesh.rotation.set(-0.7, 0, 3.1)
                         
-
                     mesh.applyMatrix4(matrixRef.current)
                 }
 

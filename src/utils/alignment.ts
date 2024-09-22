@@ -25,7 +25,8 @@ export const getAlignment = (canal: string, stage: number, mesh: Mesh) => {
     mesh.localToWorld(top)
     mesh.localToWorld(bottom)
 
-
+    // This whole function picks a point at the top of the canal segment, one at the bottom,
+    // and calculates how vertical is the line connecting them
 
     return (top.y - bottom.y)/top.distanceTo(bottom)
 }

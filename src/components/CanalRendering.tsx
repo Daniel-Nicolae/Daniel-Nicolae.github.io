@@ -20,19 +20,15 @@ function capitalize(string: string) {
 
 const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentRef, alignedRef}: Props) => {
 
-
     const [active, setActive] = useState(true)
     const handleChange = () => {
         setActive(!active)
     }
 
-
     const camera = useRef<THREE.Camera>()
     const scene = useRef<THREE.Scene>()
     const renderer = useRef<THREE.WebGLRenderer>()
     const meshParts = useRef<THREE.Mesh[]>([])
-
-
 
     const canalColours = {"posterior": BLUE_COLOUR, "anterior": ORANGE_COLOUR, "lateral": BROWN_COLOUR, "all": 0}
     const coloursAll = [BLUE_COLOUR, ORANGE_COLOUR, BROWN_COLOUR, 0x333333, 0x333333]
@@ -101,7 +97,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
             })
         }
 
-        // Define gravity vector
+        // Draw gravity vector
         const arrowMaterial = new THREE.LineBasicMaterial({color: RED_COLOUR, linewidth: 10})
         const points = []
         if (canal === "all") {
@@ -118,23 +114,23 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
             points.push(new THREE.Vector3(4.3, -4, 0))
             points.push(new THREE.Vector3(3.9, -3.4, 0))
         }
-
-
         const arrowGeometry = new THREE.BufferGeometry().setFromPoints(points)
         const arrow = new THREE.Line(arrowGeometry, arrowMaterial)
         scene.current.add(arrow)
 
+        // Main animation loop
         let loop: number = requestAnimationFrame(animate)
-
         function animate() {
             if (meshParts.current[meshPartsLength[canal] - 1]) {
                 for (let mesh of meshParts.current) {
-                    mesh.rotation.set(0, 0, 0)
-                    mesh.applyMatrix4(matrixRef.current)
+                    mesh.rotation.set(0, 0, 0) // each frame first resets the canal position
+                    mesh.applyMatrix4(matrixRef.current) // then applies the rotation matrix
                 }
 
                 if (affected) {
                     const segmentID = canal === "lateral" ? stage - 1 : stage
+
+                    // update alignment variable for the affected canal
                     alignmentRef!.current = getAlignment(canal, stage, meshParts.current[segmentID])
                     if (alignedRef.current) {
                         const material = new THREE.MeshStandardMaterial({color: GREEN_COLOUR, side: THREE.DoubleSide, flatShading: true})
@@ -145,7 +141,6 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
                         meshParts.current[segmentID].material = material
                     }
                 }
-
 
                 renderer.current!.render(scene.current!, camera.current!)
             }

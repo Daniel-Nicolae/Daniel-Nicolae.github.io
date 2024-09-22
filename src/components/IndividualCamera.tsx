@@ -10,12 +10,11 @@ interface Props {
     number: number
     IDs: string[]
     landmarksRef: React.MutableRefObject<Vector3[]>
-    isClinicalRef: React.MutableRefObject<boolean>
 }
 
 const labels = ["Left", "Top", "Right"]
 
-const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => {
+const IndividualCamera = ({number, IDs, landmarksRef}: Props) => {
 
     // toggle handler
     const [IDi, setIDi] = useState(number-1)
@@ -40,11 +39,10 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
         const video = videoNode.target as HTMLVideoElement
         if (video.readyState !== 4) return
 
+        // setup drawing stuff
         const canvasElement = document.getElementById("modelCanvas" + number) as HTMLCanvasElement
-
         canvasElement.setAttribute("width", "" + document.documentElement.clientWidth * 0.145)
         canvasElement.setAttribute("height", "" + document.documentElement.clientWidth * 0.145)
-
         const canvasCtx = canvasElement.getContext("2d")!
         const drawingUtils = new DrawingUtils(canvasCtx)
 
@@ -53,7 +51,6 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
 
             // inference
             const faceLandmarkerResult = model.current.detectForVideo(video, performance.now())
-            
 
             // drawing
             if (faceLandmarkerResult.faceLandmarks[0]) {
@@ -61,10 +58,12 @@ const IndividualCamera = ({number, IDs, landmarksRef, isClinicalRef}: Props) => 
                 // extract useful landmarks only and save in ref
                 const usefulLandmarks = usefulLandmarksIDs.map((item) => faceLandmarkerResult.faceLandmarks[0][item])
 
-                    // -y and -z to convert from y positive downwards (model) to upwards (rendering)
+                // -y and -z to convert from y positive downwards (model) to upwards (camera)
                 landmarksRef.current = usefulLandmarks.map((item) => {
                     const landmarkVec = new Vector3(item.x, -item.y, -item.z)
-                    if (isClinicalRef.current) landmarkVec.applyMatrix4(cameraMatrices[number-1])
+
+                    // from real camera coord system to world coord system
+                    landmarkVec.applyMatrix4(cameraMatrices[number-1])
                     return landmarkVec
                 })
 

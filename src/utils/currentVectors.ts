@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
 
 const zeroVector = new Vector3()
-const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vector3[]>[],
-                                 landmarksRef: React.MutableRefObject<Vector3[]>,
+const computeCurrentVectors = (cameraLandmarksRefs: React.MutableRefObject<Vector3[]>[],
+                                 vectorsRef: React.MutableRefObject<Vector3[]>,
                                  lostCallback: (lost: boolean) => void) => {
 
     const x = new Vector3()
@@ -24,12 +24,13 @@ const computeCurrentLandmarks = (cameraLandmarksRefs: React.MutableRefObject<Vec
     x.multiplyScalar(1.0/active)
     y.multiplyScalar(1.0/active)
 
+    // if none of the cameras has landmarks, set lost to true
     if (active) {
-        landmarksRef.current = [x, y]
+        vectorsRef.current = [x, y]
         lostCallback(false)
     }
     else lostCallback(true)
 }
 
 
-export default computeCurrentLandmarks
+export default computeCurrentVectors
