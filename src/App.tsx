@@ -6,6 +6,7 @@ import { Matrix4 } from 'three';
 import SelectWindow from './components/SelectWindow';
 import AlignmentDisplay from './components/AlignmentDisplay';
 import HeadRendering from './components/HeadRendering';
+import MatrixDisplay from './components/MatrixDisplay';
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
                     matrixRef={matrixRef}/>
             </div>
 
-                <div style={{width: "45vw"}}>
+                <div>
                     <GraphicsWindow 
                         ear={affectedEar}
                         affectedCanal={affectedCanal}
@@ -72,8 +73,10 @@ function App() {
                 <HeadRendering
                     ear={affectedEar}
                     matrixRef={matrixRef}/>
-
             </div>
+
+            <MatrixDisplay matrixRef={matrixRef}/>
+
         </div>
         </>
     );
