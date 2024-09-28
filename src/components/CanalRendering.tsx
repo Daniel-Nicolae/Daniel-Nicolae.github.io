@@ -49,7 +49,7 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
 
         // Camera initialisation
         camera.current = new THREE.PerspectiveCamera(15, 1)
-        camera.current.position.set(0, 0, canal === "all" ? 70 : 39) 
+        camera.current.position.set(0, 0, canal === "all" ? -70 : -39) 
         camera.current.lookAt(0, 0, 0)
 
 
@@ -59,12 +59,12 @@ const CanalRendering = ({canal, ear, affectedCanal, matrixRef, stage, alignmentR
 
         const pointLight1 = new THREE.PointLight(0xffffff, 200)
         pointLight1.castShadow = true
-        pointLight1.position.set(0, 0, 35)
+        pointLight1.position.set(0, 0, -35)
         scene.current.add(pointLight1)
 
         const pointLight2 = new THREE.PointLight(0xffffff, canal === "all" ? 850 : 1300)
         pointLight2.castShadow = true
-        pointLight2.position.set(0, 15, 8)
+        pointLight2.position.set(0, 15, -8)
         scene.current.add(pointLight2)
 
         const pointLight3 = new THREE.PointLight(0xffffff, 200)

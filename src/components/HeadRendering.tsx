@@ -36,7 +36,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
 
         // Camera initialisation
         camera.current = new THREE.PerspectiveCamera(12, 1)
-        camera.current.position.set(0, 0, 100) 
+        camera.current.position.set(0, 0, -100) 
         camera.current.lookAt(0, 0, 0)
 
 
@@ -75,7 +75,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Load head mesh
         loader.load("meshes/head.ply", (geometry) => {
 
-            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.5})
+            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.9})
             const loadedMesh = new THREE.Mesh(geometry.center(), material)
 
             scene.current!.add(loadedMesh)
