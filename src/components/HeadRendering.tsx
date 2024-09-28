@@ -75,7 +75,7 @@ const HeadRendering = ({ear, matrixRef}: Props) => {
         // Load head mesh
         loader.load("meshes/head.ply", (geometry) => {
 
-            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.9})
+            const material = new THREE.MeshPhongMaterial({color: 0x555555, flatShading: true, transparent: true, opacity: 0.5})
             const loadedMesh = new THREE.Mesh(geometry.center(), material)
 
             scene.current!.add(loadedMesh)
